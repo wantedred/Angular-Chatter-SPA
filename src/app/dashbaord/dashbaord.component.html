@@ -1,0 +1,75 @@
+<div class="container-fluid" style="padding: 0; height: calc(100% - 60px)">
+  <div class="row no-gutters" style="height: 100%;">
+    <div class="col-12 col-lg-8">
+      <mat-tab-group [dynamicHeight]="true" style="height: 100%;">
+        <mat-tab label="Public" style="height: 100%; flex-grow: 1;">
+          <mat-card class="main-chat-card" style="height: calc(100vh - 173px); border-radius: 0;">
+            <mat-card-content style="height: calc(100% - 60px); overflow-y: scroll; 
+              overflow-x: hidden; padding: 0 16px;">
+              <div class="row" style="margin-bottom: 8px;">
+                <mat-card class="sent-message col-lg-5 col-8" style="background-color: purple;">
+                  <mat-card-content>
+                    Hey big man how are you?
+                  </mat-card-content>
+                  <mat-card-footer class="message-footer">Tristan - 829PM</mat-card-footer>
+                </mat-card>
+              </div>
+              <div class="row" style="margin-bottom: 8px;">
+                <mat-card class="recieved-message offset-lg-7 col-lg-5 col-8 offset-3">
+                  <mat-card-content>
+                    Hey big man how are you?
+                  </mat-card-content>
+                  <mat-card-footer class="message-footer">Tristan - 829PM</mat-card-footer>
+                </mat-card>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+          <div class="col-11 message-input-f" style="position: absolute; bottom: 0; margin: 0; padding: 0; z-index: 3;">
+            <div class="form-group message-input">
+              <button>
+                <mat-icon>send</mat-icon>
+              </button>
+              <textarea type="text" style="bottom: 12px; position: absolute; min-height: 40px; max-height: 100px;" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Message Text"></textarea>
+            </div>
+          </div>
+    </div>
+
+    <div class="col-lg-4" fxShow="true" fxHide.lt-md="true" style="border-left: 1px solid rgba(0, 0, 0, 0);">
+      <mat-tab-group [dynamicHeight]="true" style="height: 100%;">
+        <mat-tab label="Members" style="height: 100%; flex-grow: 1;">
+          <mat-card class="example-card" style="height: 100%; border-radius: 0;">
+            <mat-card-header style="text-align: right;">
+              <mat-card-title>
+                  Names
+              </mat-card-title>
+              <h4 style="
+              margin-bottom: 0px;
+              width: 100%;
+              padding-right: 58px;">Actions</h4>
+            </mat-card-header>
+            <mat-card-content style="height: calc(100vh - 237px); overflow-y: auto;">
+              <mat-list>
+                <mat-list-item>
+                  <h3 matLine> Austin </h3>
+                  <button mat-button
+                  matTooltip="Send the user a private messaage"
+                  matTooltipPosition="above"
+                  >
+                    <mat-icon>message</mat-icon>
+                  </button>
+                  <button mat-button
+                  matTooltip="Block messages from user"
+                  matTooltipPosition="above">
+                    <mat-icon>block</mat-icon>
+                  </button>
+                </mat-list-item>
+               </mat-list>
+            </mat-card-content>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+</div>

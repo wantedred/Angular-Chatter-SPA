@@ -1,0 +1,36 @@
+<mat-toolbar color="primary">
+    <button mat-button>
+        <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+    </button>
+    <span>Web Chatter</span>
+    <span class="example-spacer"></span>
+    <!-- <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
+    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon> -->
+    <div fxShow="true" fxHide.lt-sm="true">
+        <button mat-button>
+            <mat-icon>person</mat-icon>
+            <span>Login</span>
+        </button>
+    
+        <button mat-button>
+            <mat-icon>person_add</mat-icon>
+            <span>Sign-Up</span>
+        </button>
+    </div>
+</mat-toolbar>
+
+<mat-sidenav-container>
+    <mat-sidenav #sidenav>
+        <mat-nav-list>
+            <mat-list-item role="listitem">Item 1</mat-list-item>
+            <mat-list-item role="listitem">Item 1</mat-list-item>
+            <mat-list-item role="listitem">Item 1</mat-list-item>
+            <mat-list-item role="listitem">Item 1</mat-list-item>
+            <mat-list-item role="listitem">Item 1</mat-list-item>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content style="overflow-x: hidden;">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </mat-sidenav-content>
+</mat-sidenav-container>
