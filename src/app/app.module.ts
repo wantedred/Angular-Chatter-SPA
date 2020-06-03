@@ -17,10 +17,11 @@ import {MatListModule} from '@angular/material/list';
 import { DashbaordComponent } from './dashbaord/dashbaord.component';
 import {MatCardModule} from '@angular/material/card';
 import {ScrollingModule} from '@angular/cdk/scrolling';
-import { MessagesContainerComponent } from './dashbaord/messages-container/messages-container.component';
 import { FooterComponent } from './footer/footer.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatInputModule} from '@angular/material/input';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -29,8 +30,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     RegisterComponent,
     LoginComponent,
     DashbaordComponent,
-    MessagesContainerComponent,
-    FooterComponent
+    FooterComponent,
+    MessagesComponent
   ],
   imports: [
     BrowserModule,
@@ -46,7 +47,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatCardModule,
     ScrollingModule,
     MatTabsModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]

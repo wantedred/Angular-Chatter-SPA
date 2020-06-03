@@ -1,0 +1,20 @@
+.sent-message {
+    background-color: purple;
+    border-radius: 12px;
+}
+
+.recieved-message {
+    background-color: rebeccapurple;
+    border-radius: 12px;
+}
+
+.sent-message mat-card-content, .recieved-message mat-card-content {
+    margin-bottom: 0;
+}
+
+.message-footer {
+    text-align: right;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+}

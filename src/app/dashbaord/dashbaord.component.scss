@@ -1,22 +1,29 @@
-.sent-message {
-    background-color: purple;
+.message-input-f {
+    background-color: #303030;
+    padding: 12px 12px 0px 12px!important;
     border-radius: 12px;
+    margin-bottom: 12px!important;
 }
 
-.recieved-message {
-    background-color: rebeccapurple;
-    border-radius: 12px;
+
+
+/* input color class */
+// ::ng-deep input.mat-input-element {
+//     color: #484a4c;
+//   }
+  
+/* Change label color on focused */
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: whitesmoke !important;
+}
+  
+::ng-deep .mat-input-element {
+    caret-color: whitesmoke!important;
 }
 
-.sent-message mat-card-content, .recieved-message mat-card-content {
-    margin-bottom: 0;
-}
-
-.message-footer {
-    text-align: right;
-    padding-right: 8px;
-    padding-bottom: 8px;
-    padding-top: 8px;
+/* underline border color on focused */
+::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+    background-color: whitesmoke !important;
 }
 
 .message-input input {
@@ -25,7 +32,7 @@
 
 .message-input button {
     position: absolute;
-    bottom: 12px;
+    bottom: 8px;
     z-index: 2;
     right: 6px;
     border: 0;

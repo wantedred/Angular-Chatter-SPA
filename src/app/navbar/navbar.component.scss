@@ -19,7 +19,7 @@ mat-sidenav-container {
 }
 
 router-outlet + * {
-    min-height: calc(95% - 15px);
+    min-height: calc(100%);
     width: 100%;
     padding: 0;
     background-color: transparent!important;

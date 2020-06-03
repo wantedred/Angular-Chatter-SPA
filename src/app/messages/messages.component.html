@@ -1,0 +1,13 @@
+<div class="row" style="margin-bottom: 8px;">
+    <mat-card 
+        [ngClass]="!isMyMessage ? 
+            'sent-message col-lg-5 col-8' : 
+            'recieved-message offset-lg-7 col-lg-5 col-8 offset-3'"
+        [ngStyle]="!isMyMessage ? {'background-color' : 'purple'} : ''"
+    >
+      <mat-card-content>
+        {{message}}
+      </mat-card-content>
+      <mat-card-footer class="message-footer">{{username}} - {{dateTime}}</mat-card-footer>
+    </mat-card>
+  </div>
