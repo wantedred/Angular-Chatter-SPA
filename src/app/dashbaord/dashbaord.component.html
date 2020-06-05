@@ -4,36 +4,37 @@
       <mat-tab-group [dynamicHeight]="true" style="height: 100%;">
         <mat-tab label="Public" style="height: 100%; flex-grow: 1;">
           <mat-card class="main-chat-card" style="height: calc(100vh - 113px); border-radius: 0;">
-            <mat-card-content style="overflow-y: scroll; 
+            <mat-card-content #messageContainer style="overflow-y: scroll; 
               overflow-x: hidden; padding: 0 16px;"
               [ngStyle]="{'height' : 'calc(100% - ' + textHeight + 'px)'}">
               <div class="messages-container">
-                <app-messages *ngFor="let message of messages"
+                <app-messages *ngFor="let message of messages; index as i"
                   [isMyMessage]="true"
-                  [dateTime]="'8:29 PM'"
+                  [dateTime]="i"
                   [username]="'wanted'"
                   [message]="'YES'"
                 ></app-messages>
                 
               </div>
               <div class="text-input-container">
-                <div class="col-11 message-input-f" style="position: absolute; bottom: 0; margin: 0; padding: 0; z-index: 3;">
+                <div class="col-11 message-input-f">
                   <div class=" message-input">
                     <mat-form-field #field class="example-full-width" style="width: 100%;" color="">
                       <mat-label>Leave a comment</mat-label>
                       <textarea matInput #textArea
-                      placeholder="Ex. It makes me feel..." 
+                      placeholder="Ex. It makes me feel..."
                       cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="5"
                       style="padding-right: 32px;"
-                      (blur)="onTextChange(textArea.style.height)"
-                      (paste)="onTextChange(textArea.style.height)"
-                      (keyup.backspace)="onTextChange(textArea.style.height)"
-                      (keypress)="onTextChange(textArea.style.height)"
-                      (resize)="onTextChange(textArea.style.height)"
+                      (blur)="onTextChange()"
+                      (paste)="onTextChange()"
+                      (keyup.backspace)="onTextChange()"
+                      (keypress)="onTextChange()"
+                      (resize)="onTextChange()"
+                      (keydown.enter)="prepareMessageSend(); stopNewLine($event);"
                       ></textarea>
-                      <mat-icon matSuffix style="color: whitesmoke;">send</mat-icon>
+                      <mat-icon matSuffix style="color: whitesmoke;" (click)="prepareMessageSend(); stopNewLine($event)">send</mat-icon>
                     </mat-form-field>
                     <!-- <textarea type="text" style="bottom: 12px; position: absolute; min-height: 40px; max-height: 100px;" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Message Text"></textarea> -->
                   </div>

@@ -1,0 +1,30 @@
+.popup-card {
+    position: absolute;
+    z-index: 10;
+    text-align: center;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    height: fit-content;
+    margin:auto;
+    background-color: #303030;
+    border-radius: 24px;
+}
+
+.popup-card mat-card-header {
+    justify-content: center;
+}
+
+.popup-card mat-card-content {
+    margin-bottom: 0;
+}
+
+.popup-input {
+    width: 80%;
+}
+
+.popup-card mat-card-actions {
+    float: right;
+    padding-top: 0;
+}

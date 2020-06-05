@@ -22,6 +22,7 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatInputModule} from '@angular/material/input';
 import { MessagesComponent } from './messages/messages.component';
+import { PopupViewComponent } from './shared/comps/popup-view/popup-view.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { MessagesComponent } from './messages/messages.component';
     LoginComponent,
     DashbaordComponent,
     FooterComponent,
-    MessagesComponent
+    MessagesComponent,
+    PopupViewComponent
   ],
   imports: [
     BrowserModule,

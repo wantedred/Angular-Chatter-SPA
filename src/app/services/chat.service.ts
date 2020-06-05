@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';  
 import { Message } from '../models/message';
+import { Observable, observable, from, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -13,14 +14,25 @@ export class ChatService {
   private _hubConnection: HubConnection;  
   
   constructor() {  
-    // this.createConnection();  
+    this.createConnection();  
     // this.registerOnServerEvents();  
-    // this.startConnection();  
+    this.startConnection();  
   }  
-  
-  sendMessage(message: Message) {  
-    this._hubConnection.invoke('NewMessage', message);  
-  }  
+
+  sendMessage(message: Message) : Promise<boolean> {
+    return new Promise((resolved) => {
+      this._hubConnection.invoke('NewMessage', message).then(value => {
+        resolved(true);
+      }, rejected => {
+        resolved(false);
+      });
+    });
+
+    // return new Observable(observer => {
+    //   observer.next(this._hubConnection.invoke('NewMessage', message));
+    // });
+     //return this._hubConnection.invoke('NewMessage', message);
+  }
   
   private createConnection() {  
     this._hubConnection = new HubConnectionBuilder()  
