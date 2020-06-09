@@ -11,8 +11,9 @@ export class PopupViewComponent {
   constructor(public popupService: PopupService) { 
   }
 
-  public actionPressed(index: number) {
-    index === 0 ? this.popupService.leftAction.emit(true) : this.popupService.rightAction.emit(true);
+  public actionPressed(index: number, text: string) {
+    index === 0 ? this.popupService.leftAction.emit(text) : 
+      this.popupService.rightAction.emit(text);
   }
 
   

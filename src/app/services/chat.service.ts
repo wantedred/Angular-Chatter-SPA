@@ -9,15 +9,32 @@ import { Observable, observable, from, of } from 'rxjs';
 export class ChatService {
   messageReceived = new EventEmitter<Message>();  
   connectionEstablished = new EventEmitter<Boolean>();  
+  usernameReceived = new EventEmitter<Boolean>();
   
-  private connectionIsEstablished = false;  
-  private _hubConnection: HubConnection;  
+  public connectionIsEstablished = false;  
+  public _hubConnection: HubConnection;  
   
-  constructor() {  
+  constructor() {
     this.createConnection();  
     // this.registerOnServerEvents();  
     this.startConnection();  
-  }  
+  }
+
+  sendUsername(username: string): Promise<boolean> {
+    if (!username) {
+      return new Promise((resolved => {
+        resolved(false);
+      }));
+    }
+
+    return new Promise((resolved) => {
+      this._hubConnection.invoke('RegisterUsername', username).then(success => {
+          resolved(success);
+      }, rejected => {
+        resolved(false);
+      });
+    });
+  }
 
   sendMessage(message: Message) : Promise<boolean> {
     return new Promise((resolved) => {
@@ -46,14 +63,18 @@ export class ChatService {
       .then(() => {  
         this.connectionIsEstablished = true;  
         console.log('Hub connection started');  
-        this.connectionEstablished.emit(true);  
+        this.connectionEstablished.emit(true);
       })  
       .catch(err => {  
         console.log('Error while establishing connection, retrying...');  
         setTimeout(function () { this.startConnection(); }, 5000);  
       });  
-  }  
+  }
   
+  // public recieveUsername(): void {
+  //   this._hubConnection.
+  // }
+
   private registerOnServerEvents(): void {  
     this._hubConnection.on('MessageReceived', (data: any) => {  
       console.log('got the message: ', data);

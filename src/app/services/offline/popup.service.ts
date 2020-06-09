@@ -11,10 +11,10 @@ export class PopupService {
   public popup: Popup;
 
   @Output() 
-  public rightAction = new EventEmitter<boolean>();
+  public rightAction = new EventEmitter<string>();
 
   @Output() 
-  public leftAction = new EventEmitter<boolean>();
+  public leftAction = new EventEmitter<string>();
 
   showPopup(popup: Popup) {
     if (!popup.popTitle || !popup.inputLabelText || !popup.inputPlaceholderText) {
@@ -27,6 +27,11 @@ export class PopupService {
 
     this.popup = popup;
     this.showCard = true;
+  }
+
+  clearPopup() {
+    this.popup = null;
+    this.showCard = false;
   }
 
 }

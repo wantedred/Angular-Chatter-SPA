@@ -3,6 +3,9 @@ import { Message } from '../models/message';
 import { ChatService } from '../services/chat.service';
 import { PopupService } from '../services/offline/popup.service';
 import { Popup } from '../models/popup';
+import { User } from '../models/user';
+import { PacketManager } from '../packets/packetmanager';
+import { SendUsernameOut } from '../packets/out/impl/sendusername';
 
 
 @Component({
@@ -24,8 +27,10 @@ export class DashbaordComponent implements OnInit {
 
   textHeight: number = Number(75);
 
+  user: User = null;
+
   constructor(  
-    private chatService: ChatService,  
+    //private chatService: ChatService,  
     private _ngZone: NgZone,
     private popupService: PopupService
   ) {  
@@ -33,6 +38,11 @@ export class DashbaordComponent implements OnInit {
   }  
 
   ngOnInit(): void {
+    console.log(PacketManager.connectionIsEstablished);
+    if (!PacketManager.connectionIsEstablished) {
+      console.log('we are not good');
+      PacketManager.connect();
+  }
     let username = "wanted";  
     let type = "sent";  
     let message = 'new new new new';  
@@ -41,21 +51,53 @@ export class DashbaordComponent implements OnInit {
     for (let i = 0; i < 20; i++) {
       this.messages.push(new Message(username, type, message, date));
     }
-
+    // this.chatService.testMethod1().then(result => {
+    //   if (result) {
+    //     console.log('testing 123');
+    //   } else {
+    //     //TODO: Make a message saying message failed to send
+    //   }
+    // });;
     this.popupService.showPopup(new Popup(
       "Choose your display name",
       "Display Name",
       "display name",
       "Save",
       "Cancel"
-    ))
+    ));
 
-    this.popupService.leftAction.subscribe(res => {
-      console.log('left action got pressed');
+    //SAVE
+    this.popupService.leftAction.subscribe(async username => {
+      if (username.length < 2 || username.length > 12) {
+        console.log('username must be three to twelve characters long');
+        return;
+      }
+
+      var status = await PacketManager.sendPacket(new SendUsernameOut(username));
+      console.log('dashboard: ', status);
+      // if (username.length < 2 || username.length > 12) {
+      //   console.log('username must be three to twelve characters long');
+      // }
+
+      // this.chatService.sendUsername(username).then(success => {
+      //   if (!success) {
+      //     //throw an error in the username form
+      //     console.log('username is taken');
+      //     return;
+      //   }
+
+      //   this.user = new User('', username);
+      //   console.log(this.user.username);
+      //   //populate usernames on the list
+      // }, err => {
+      //   console.log('we got an error');
+      //   //server is down? retry connection?
+      // });
     });
 
-    this.popupService.rightAction.subscribe(res => {
-      console.log('right action got pressed');
+    //CANCEL
+    this.popupService.rightAction.subscribe(() => {
+      //send a toast that user can't send messages until giving a name
     });
   }
 
@@ -73,21 +115,21 @@ export class DashbaordComponent implements OnInit {
   }
 
   sendMessage(message: string): void {
-    this.chatService.sendMessage(
-      new Message(
-        "wanted",
-        "sent",
-        message,
-        new Date()
-      )
-    ).then(result => {
-      if (result) {
-        this.scrollTextBottom();
-        this.clearText();
-      } else {
-        //TODO: Make a message saying message failed to send
-      }
-    });
+    // this.chatService.sendMessage(
+    //   new Message(
+    //     "wanted",
+    //     "sent",
+    //     message,
+    //     new Date()
+    //   )
+    // ).then(result => {
+    //   if (result) {
+    //     this.scrollTextBottom();
+    //     this.clearText();
+    //   } else {
+    //     //TODO: Make a message saying message failed to send
+    //   }
+    // });
 
     
     
@@ -102,17 +144,17 @@ export class DashbaordComponent implements OnInit {
     //   this.txtMessage = '';  
     // }
   }  
-  private subscribeToEvents(): void {  
+  // private subscribeToEvents(): void {  
   
-    this.chatService.messageReceived.subscribe((message: Message) => {  
-      this._ngZone.run(() => {  
-        // if (message.clientId !== this.uniqueID) {  
-        //   message.type = "received";  
-        //   this.messages.push(message);  
-        // }  
-      });  
-    });  
-  }
+  //   this.chatService.messageReceived.subscribe((message: Message) => {  
+  //     this._ngZone.run(() => {  
+  //       // if (message.clientId !== this.uniqueID) {  
+  //       //   message.type = "received";  
+  //       //   this.messages.push(message);  
+  //       // }  
+  //     });  
+  //   });  
+  // }
 
   stopNewLine(event) {
       event.preventDefault();
