@@ -55,4 +55,4 @@ import { PopupViewComponent } from './shared/comps/popup-view/popup-view.compone
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,12 +1,11 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import { Message } from '../models/message';
-import { ChatService } from '../services/chat.service';
 import { PopupService } from '../services/offline/popup.service';
 import { Popup } from '../models/popup';
 import { User } from '../models/user';
 import { PacketManager } from '../packets/packetmanager';
 import { SendUsernameOut } from '../packets/out/impl/sendusername';
-
+import { Connection } from '../connection';
 
 @Component({
   selector: 'app-dashbaord',
@@ -37,11 +36,10 @@ export class DashbaordComponent implements OnInit {
     //this.subscribeToEvents();  
   }  
 
-  ngOnInit(): void {
-    console.log(PacketManager.connectionIsEstablished);
-    if (!PacketManager.connectionIsEstablished) {
+  async ngOnInit(): Promise<void> {
+    if (!Connection.connectionIsEstablished) {
       console.log('we are not good');
-      PacketManager.connect();
+      Connection.startConnecting();
   }
     let username = "wanted";  
     let type = "sent";  

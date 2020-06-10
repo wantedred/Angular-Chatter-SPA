@@ -1,6 +1,6 @@
-import { Component, NgZone } from '@angular/core';
-import { ChatService } from './services/chat.service';
-import { Message } from './models/message';
+import { Component } from '@angular/core';
+import { Connection } from './connection';
+import { PacketManager } from './packets/packetmanager';
 
 @Component({
   selector: 'app-root',
@@ -9,5 +9,16 @@ import { Message } from './models/message';
 })
 export class AppComponent {
   
+  constructor() {
+    Connection.connectionEstablishedEmitter.subscribe(success => {
+      if (success) {
+        PacketManager.prepareInPackets();
+      }
+    });
+
+    if (!Connection.connectionIsEstablished) {
+      Connection.startConnecting();
+    }
+  }
  
 }  

@@ -1,45 +1,54 @@
 import { Injectable } from '@angular/core';
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { OutPacket } from './out/outpacket';
+import { ReceiveUsername } from './in/impl/receiveusername';
+import { Connection } from '../connection';
 
 @Injectable({
     providedIn: 'root'
 })
 export class PacketManager {
 
-    public static _hubConnection: HubConnection;
-    public static connectionIsEstablished = false;  
+    /**
+    * The Dictonary for incoming packets containing <packetName, GenericEmitter>
+    */
+    private static inPackets = new Map();
 
-    constructor() {
-    }
+    /**
+     * The queue for when the server is offline or switching hosts
+     */
+    private static packetQueue = new Array<OutPacket>();
 
+    /**
+     * This method is used to send a packet out
+     * @param outPacket - The packet class we are sending out
+     */
     public static async sendPacket(outPacket: OutPacket) : Promise<boolean> {
+      if (!Connection.connectionIsEstablished) {
+        this.packetQueue.push(outPacket);
+        //TDOD: FINISH PACKET QUEUE
+      } else {
         return await outPacket.prepareSend();
-    }
-
-    public static connect() {
-        this.createConnection();
-        this.startConnection();
-    }
-
-    private static createConnection() {  
-        PacketManager._hubConnection = new HubConnectionBuilder()  
-          .withUrl('https://localhost:44368/MessageHub') 
-          .build();  
-    }
-
-    private static startConnection(): void {  
-        PacketManager._hubConnection  
-          .start()  
-          .then(() => {  
-            PacketManager.connectionIsEstablished = true;  
-            console.log('Hub connection started');  
-            //PacketManager.connectionEstablished.emit(true);
-          })  
-          .catch(err => {  
-            console.log('Error while establishing connection, retrying...');  
-            setTimeout(function () { this.startConnection(); }, 5000);  
-          });  
       }
+    }
+
+    /**
+     * Prepares the incoming packets
+     */
+    public static prepareInPackets() {
+      this.populateInPackets();
+
+      for (let [key, value] of PacketManager.inPackets.entries()) {
+        Connection.hubConnection.on(key, (data: any) => {           
+          value.emit(data);
+        })
+      }
+    }
+
+    /**
+     * Populates the Map with incoming packets
+     */
+    private static populateInPackets() {
+      PacketManager.inPackets.set('ReceiveUsername', ReceiveUsername.getGenericEmitter());
+    }
 
 }

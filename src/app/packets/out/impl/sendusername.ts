@@ -1,4 +1,3 @@
-import { PacketManager } from '../../packetmanager';
 import { OutPacket } from '../outpacket';
 import { PacketType } from '../../packettype';
 
@@ -21,7 +20,6 @@ export class SendUsernameOut extends OutPacket {
 
               return true;
         }, err => {
-            console.log(PacketManager.connectionIsEstablished);
             console.log('we got an error');
             return false;
         });
