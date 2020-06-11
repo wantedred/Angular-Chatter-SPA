@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Message } from '../models/message';
 import { PopupService } from '../services/offline/popup.service';
 import { Popup } from '../models/popup';
@@ -6,6 +6,10 @@ import { User } from '../models/user';
 import { PacketManager } from '../packets/packetmanager';
 import { SendUsernameOut } from '../packets/out/impl/sendusername';
 import { Connection } from '../connection';
+import { ReceiveUsername, ReceiveUsernameProps } from '../packets/in/impl/receiveusername';
+import { RequestAllUsers } from '../packets/out/impl/requestallusers';
+import { ReceiveAllUsers, ReceiveAllUsersProps } from '../packets/in/impl/receiveallusers';
+import { element } from 'protractor';
 
 @Component({
   selector: 'app-dashbaord',
@@ -16,7 +20,7 @@ import { Connection } from '../connection';
 export class DashbaordComponent implements OnInit {
 
   uniqueID: string = new Date().getTime().toString();  
-  messages = new Array<Message>();  
+  messages = new Array<Message>();
   
   @ViewChild('textArea') 
   txtArea: ElementRef;
@@ -27,6 +31,7 @@ export class DashbaordComponent implements OnInit {
   textHeight: number = Number(75);
 
   user: User = null;
+  users: User[] = Array<User>();
 
   constructor(  
     //private chatService: ChatService,  
@@ -37,18 +42,46 @@ export class DashbaordComponent implements OnInit {
   }  
 
   async ngOnInit(): Promise<void> {
-    if (!Connection.connectionIsEstablished) {
-      console.log('we are not good');
-      Connection.startConnecting();
-  }
     let username = "wanted";  
     let type = "sent";  
     let message = 'new new new new';  
-    let date = new Date();  
+    let date = new Date();
+    this.getUsersInChat();  
 
     for (let i = 0; i < 20; i++) {
       this.messages.push(new Message(username, type, message, date));
     }
+
+    new ReceiveUsername().getEmitter().subscribe((data: ReceiveUsernameProps) => {
+      if (data.removeUser) {
+        for (let i = 0; i < this.users.length; i++) {
+          if (this.users[i].username === data.newUsername) {
+            this.users.splice(i, 1);
+          }
+        }
+      } else {
+        this.users.push(new User(null, data.newUsername));
+      }
+    });
+
+    var receiveuserssub = new ReceiveAllUsers().getEmitter().subscribe((data: ReceiveAllUsersProps) => {
+        if (data.users == null || undefined) {
+          console.log('im null on getting new users');
+          receiveuserssub.unsubscribe();
+          return;
+        }
+
+        data.users.forEach(element => {
+          this.users.push(element);
+        });
+
+        //Removing first element, keeps placing empty one
+        this.users.splice(0, 1);
+        /**
+         * Work on why angular isnt getting list of users from server
+         */
+        receiveuserssub.unsubscribe();
+    });
     // this.chatService.testMethod1().then(result => {
     //   if (result) {
     //     console.log('testing 123');
@@ -71,35 +104,40 @@ export class DashbaordComponent implements OnInit {
         return;
       }
 
-      var status = await PacketManager.sendPacket(new SendUsernameOut(username));
-      console.log('dashboard: ', status);
-      // if (username.length < 2 || username.length > 12) {
-      //   console.log('username must be three to twelve characters long');
-      // }
+      let status: boolean = await PacketManager.sendPacket(new SendUsernameOut(username));
 
-      // this.chatService.sendUsername(username).then(success => {
-      //   if (!success) {
-      //     //throw an error in the username form
-      //     console.log('username is taken');
-      //     return;
-      //   }
+      if (!status) {
+        //TODO: throw an error in the username form
+        console.log('username is taken');
+        return;
+      }
 
-      //   this.user = new User('', username);
-      //   console.log(this.user.username);
-      //   //populate usernames on the list
-      // }, err => {
-      //   console.log('we got an error');
-      //   //server is down? retry connection?
-      // });
+      this.user = new User('', username);
+      this.popupService.clearPopup();
     });
 
     //CANCEL
     this.popupService.rightAction.subscribe(() => {
+      this.popupService.clearPopup();
       //send a toast that user can't send messages until giving a name
     });
   }
 
-  
+  private getUsersInChat() {
+    if (this.users.length > 0) {
+      return;
+    }
+
+    if (!Connection.connectionIsEstablished) {
+      Connection.connectionEstablishedEmitter.subscribe(async success => {
+        if (success) {
+          PacketManager.sendPacket(new RequestAllUsers());
+        }
+      })
+    } else {
+      PacketManager.sendPacket(new RequestAllUsers());
+    }
+  }
 
   prepareMessageSend() {
     let textMessage : string = this.txtArea.nativeElement.value;

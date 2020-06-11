@@ -16,16 +16,27 @@ export abstract class OutPacket extends Packet  {
      * @param packetType - The type of packet we're sending
      * @param data - The data the outgoing packet is sending
      */
-    protected sendPacket(packetType: PacketType, data: any): Promise<boolean> {
+    protected sendPacket(packetType: PacketType, data: any = undefined): Promise<boolean> {
         return new Promise((resolved) => {
-            Packet._hubConnection.
-            invoke(packetType, data).then(success => {
-                //console.log(this.chatService.connectionIsEstablished);
-                resolved(success);
-            }, rejected => {
-                //console.log(this.chatService.connectionIsEstablished);
-                resolved(false);
-            });
+            if (data === undefined) {
+                Packet._hubConnection.
+                invoke(packetType).then(success => {
+                    //console.log(this.chatService.connectionIsEstablished);
+                    resolved(success);
+                }, rejected => {
+                    //console.log(this.chatService.connectionIsEstablished);
+                    resolved(false);
+                })
+            } else {
+                Packet._hubConnection.
+                invoke(packetType, data).then(success => {
+                    //console.log(this.chatService.connectionIsEstablished);
+                    resolved(success);
+                }, rejected => {
+                    //console.log(this.chatService.connectionIsEstablished);
+                    resolved(false);
+                });
+            }
         });
     }
 }

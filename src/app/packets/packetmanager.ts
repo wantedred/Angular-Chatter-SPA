@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { OutPacket } from './out/outpacket';
 import { ReceiveUsername } from './in/impl/receiveusername';
 import { Connection } from '../connection';
+import { ReceiveAllUsers } from './in/impl/receiveallusers';
 
 @Injectable({
     providedIn: 'root'
@@ -49,6 +50,7 @@ export class PacketManager {
      */
     private static populateInPackets() {
       PacketManager.inPackets.set('ReceiveUsername', ReceiveUsername.getGenericEmitter());
+      PacketManager.inPackets.set('ReceiveAllUsers', ReceiveAllUsers.getGenericEmitter());
     }
 
 }

@@ -15,4 +15,5 @@ export class ReceiveUsername extends InPacket {
 
 export interface ReceiveUsernameProps {
     newUsername: string;
+    removeUser: boolean;
 }
