@@ -9,24 +9,24 @@ export abstract class InPacket extends Packet {
     /**
      * The generic emitter the packetmanager uses
      */
-    private static genericEmitter = new EventEmitter<InPacket>();
+    private genericEmitter = new EventEmitter<InPacket>();
 
-    /**
-     * The emitter we subscribe to for changes
-     */
-    protected abstract emitter = new EventEmitter<any>();
+    // /**
+    //  * The emitter we subscribe to for changes
+    //  */
+    // private static emitter = new EventEmitter<any>();
 
-    /**
-     * The getters for the emitter we subscribe to
-     */
-    public getEmitter() {
-        return this.emitter;
-    }
+    // /**
+    //  * The getters for the emitter we subscribe to
+    //  */
+    // public static getEmitter() {
+    //     return this.emitter;
+    // }
 
     /**
      * the getter for the generic emitter
      */
-    public static getGenericEmitter() {
+    public getGenericEmitter() {
         return this.genericEmitter;
     }
 

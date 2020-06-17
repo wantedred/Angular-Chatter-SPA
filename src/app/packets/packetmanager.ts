@@ -3,6 +3,7 @@ import { OutPacket } from './out/outpacket';
 import { ReceiveUsername } from './in/impl/receiveusername';
 import { Connection } from '../connection';
 import { ReceiveAllUsers } from './in/impl/receiveallusers';
+import { ReceiveMessage } from './in/impl/receivemessage';
 
 @Injectable({
     providedIn: 'root'
@@ -39,7 +40,7 @@ export class PacketManager {
       this.populateInPackets();
 
       for (let [key, value] of PacketManager.inPackets.entries()) {
-        Connection.hubConnection.on(key, (data: any) => {           
+        Connection.hubConnection.on(key, (data: any) => {
           value.emit(data);
         })
       }
@@ -49,8 +50,9 @@ export class PacketManager {
      * Populates the Map with incoming packets
      */
     private static populateInPackets() {
-      PacketManager.inPackets.set('ReceiveUsername', ReceiveUsername.getGenericEmitter());
-      PacketManager.inPackets.set('ReceiveAllUsers', ReceiveAllUsers.getGenericEmitter());
+      PacketManager.inPackets.set('ReceiveUsername', new ReceiveUsername().getGenericEmitter());
+      PacketManager.inPackets.set('ReceiveAllUsers', new ReceiveAllUsers().getGenericEmitter());
+      PacketManager.inPackets.set('NewMessage', new ReceiveMessage().getGenericEmitter());
     }
 
 }

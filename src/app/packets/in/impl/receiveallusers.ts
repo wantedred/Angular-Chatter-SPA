@@ -1,14 +1,15 @@
 import { InPacket } from '../inpacket';
 import { User } from 'src/app/models/user';
+import { EventEmitter } from '@angular/core';
 
 export class ReceiveAllUsers extends InPacket {
 
-    protected emitter: import("@angular/core").EventEmitter<any>;
+    public static emitter: EventEmitter<ReceiveAllUsersProps> = new EventEmitter(true);
     
     constructor() {
         super();
-        ReceiveAllUsers.getGenericEmitter().subscribe(data => {
-            this.emitter.emit(data);
+        this.getGenericEmitter().subscribe(data => {
+            ReceiveAllUsers.emitter.emit(data);
         });
     }
 }

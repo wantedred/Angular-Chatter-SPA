@@ -31,7 +31,7 @@ export class Connection {
      */
     private static buildConnection() {
         Connection.hubConnection = new HubConnectionBuilder()  
-        .withUrl('https://localhost:44368/MessageHub') 
+        .withUrl('https://localhost:44368/MessageHub')
         .build();  
     }
 

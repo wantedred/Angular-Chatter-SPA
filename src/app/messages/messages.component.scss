@@ -1,14 +1,17 @@
 .sent-message {
     background-color: purple;
     border-radius: 12px;
+    max-width: 60%;
 }
 
-.recieved-message {
+.received-message {
     background-color: rebeccapurple;
     border-radius: 12px;
+    float: right;
+    max-width: 60%;
 }
 
-.sent-message mat-card-content, .recieved-message mat-card-content {
+.sent-message mat-card-content, .received-message mat-card-content {
     margin-bottom: 0;
 }
 
@@ -17,4 +20,10 @@
     padding-right: 8px;
     padding-bottom: 8px;
     padding-top: 8px;
+}
+
+@media screen and (orientation:portrait) {
+    .sent-message, .received-message {
+        max-width: 80%;
+    }
 }

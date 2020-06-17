@@ -9,7 +9,8 @@ import { Connection } from '../connection';
 import { ReceiveUsername, ReceiveUsernameProps } from '../packets/in/impl/receiveusername';
 import { RequestAllUsers } from '../packets/out/impl/requestallusers';
 import { ReceiveAllUsers, ReceiveAllUsersProps } from '../packets/in/impl/receiveallusers';
-import { element } from 'protractor';
+import { ReceiveMessage } from '../packets/in/impl/receivemessage';
+import { SendMessage } from '../packets/out/impl/sendmessage';
 
 @Component({
   selector: 'app-dashbaord',
@@ -34,25 +35,17 @@ export class DashbaordComponent implements OnInit {
   users: User[] = Array<User>();
 
   constructor(  
-    //private chatService: ChatService,  
-    private _ngZone: NgZone,
     private popupService: PopupService
   ) {  
     //this.subscribeToEvents();  
   }  
 
-  async ngOnInit(): Promise<void> {
-    let username = "wanted";  
-    let type = "sent";  
-    let message = 'new new new new';  
-    let date = new Date();
-    this.getUsersInChat();  
+  ngOnInit(): void {
+    //gets the users in the chat
+    this.getUsersInChat();
 
-    for (let i = 0; i < 20; i++) {
-      this.messages.push(new Message(username, type, message, date));
-    }
-
-    new ReceiveUsername().getEmitter().subscribe((data: ReceiveUsernameProps) => {
+    ReceiveUsername.emitter.subscribe((data: ReceiveUsernameProps) => {
+      console.log('got a new username');
       if (data.removeUser) {
         for (let i = 0; i < this.users.length; i++) {
           if (this.users[i].username === data.newUsername) {
@@ -64,31 +57,18 @@ export class DashbaordComponent implements OnInit {
       }
     });
 
-    var receiveuserssub = new ReceiveAllUsers().getEmitter().subscribe((data: ReceiveAllUsersProps) => {
+    var receiveuserssub = ReceiveAllUsers.emitter.subscribe((data: ReceiveAllUsersProps) => {
         if (data.users == null || undefined) {
-          console.log('im null on getting new users');
           receiveuserssub.unsubscribe();
           return;
         }
-
-        data.users.forEach(element => {
+        
+        data.users.forEach((element: User) => {
           this.users.push(element);
         });
-
-        //Removing first element, keeps placing empty one
-        this.users.splice(0, 1);
-        /**
-         * Work on why angular isnt getting list of users from server
-         */
         receiveuserssub.unsubscribe();
     });
-    // this.chatService.testMethod1().then(result => {
-    //   if (result) {
-    //     console.log('testing 123');
-    //   } else {
-    //     //TODO: Make a message saying message failed to send
-    //   }
-    // });;
+
     this.popupService.showPopup(new Popup(
       "Choose your display name",
       "Display Name",
@@ -98,7 +78,7 @@ export class DashbaordComponent implements OnInit {
     ));
 
     //SAVE
-    this.popupService.leftAction.subscribe(async username => {
+    this.popupService.leftAction.subscribe(async (username: string) => {
       if (username.length < 2 || username.length > 12) {
         console.log('username must be three to twelve characters long');
         return;
@@ -120,6 +100,15 @@ export class DashbaordComponent implements OnInit {
     this.popupService.rightAction.subscribe(() => {
       this.popupService.clearPopup();
       //send a toast that user can't send messages until giving a name
+    });
+
+    ReceiveMessage.emitter.subscribe((message: Message) => {
+      console.log('got a new message: ', message);
+
+      if (this.user !== null && this.user.username === message.username) {
+        message.type = 'sent';
+      }
+      this.messages.push(new Message(message.username, message.type, message.text, new Date(message.date)));
     });
   }
 
@@ -151,46 +140,22 @@ export class DashbaordComponent implements OnInit {
   }
 
   sendMessage(message: string): void {
-    // this.chatService.sendMessage(
-    //   new Message(
-    //     "wanted",
-    //     "sent",
-    //     message,
-    //     new Date()
-    //   )
-    // ).then(result => {
-    //   if (result) {
-    //     this.scrollTextBottom();
-    //     this.clearText();
-    //   } else {
-    //     //TODO: Make a message saying message failed to send
-    //   }
-    // });
-
-    
-    
-    // if (this.txtMessage) {  
-    //   this.message = new Message();  
-    //   this.message.clientId = this.uniqueID;  
-    //   this.message.type = "sent";  
-    //   this.message.text = this.txtMessage;  
-    //   this.message.date = new Date();  
-    //   this.messages.push(this.message);  
-    //   this.chatService.sendMessage(this.message);  
-    //   this.txtMessage = '';  
-    // }
+    PacketManager.sendPacket(new SendMessage(new Message(
+      this.user.username,
+      "received",
+      message,
+      new Date()
+    ))).then(success => {
+      if (success) {
+        this.scrollTextBottom();
+        this.clearText();
+      } else {
+        this.scrollTextBottom();//message saying failed to send
+      }
+    }, rejected => {
+      this.scrollTextBottom();//message saying failed to send
+    });
   }  
-  // private subscribeToEvents(): void {  
-  
-  //   this.chatService.messageReceived.subscribe((message: Message) => {  
-  //     this._ngZone.run(() => {  
-  //       // if (message.clientId !== this.uniqueID) {  
-  //       //   message.type = "received";  
-  //       //   this.messages.push(message);  
-  //       // }  
-  //     });  
-  //   });  
-  // }
 
   stopNewLine(event) {
       event.preventDefault();

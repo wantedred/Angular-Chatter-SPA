@@ -9,10 +9,10 @@
               [ngStyle]="{'height' : 'calc(100% - ' + textHeight + 'px)'}">
               <div class="messages-container">
                 <app-messages *ngFor="let message of messages; index as i"
-                  [isMyMessage]="true"
-                  [dateTime]="i"
-                  [username]="'wanted'"
-                  [message]="'YES'"
+                  [isMyMessage]="message.type === 'received' ? false : true"
+                  [dateTime]="message.date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})"
+                  [username]="message.username"
+                  [message]="message.text"
                 ></app-messages>
                 
               </div>
@@ -20,9 +20,9 @@
                 <div class="col-11 message-input-f">
                   <div class=" message-input">
                     <mat-form-field #field class="example-full-width" style="width: 100%;" color="">
-                      <mat-label>Leave a comment</mat-label>
+                      <mat-label>Type a message</mat-label>
                       <textarea matInput #textArea
-                      placeholder="Ex. It makes me feel..."
+                      placeholder="Message to send..."
                       cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
                       cdkAutosizeMaxRows="5"
@@ -34,7 +34,7 @@
                       (resize)="onTextChange()"
                       (keydown.enter)="prepareMessageSend(); stopNewLine($event);"
                       ></textarea>
-                      <mat-icon matSuffix style="color: whitesmoke;" (click)="prepareMessageSend(); stopNewLine($event)">send</mat-icon>
+                      <mat-icon matSuffix style="color: whitesmoke; cursor: pointer;" (click)="prepareMessageSend(); stopNewLine($event)">send</mat-icon>
                     </mat-form-field>
                     <!-- <textarea type="text" style="bottom: 12px; position: absolute; min-height: 40px; max-height: 100px;" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Message Text"></textarea> -->
                   </div>

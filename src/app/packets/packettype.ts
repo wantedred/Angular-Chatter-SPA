@@ -1,6 +1,6 @@
 export enum PacketType {
 
     SendUsername = "RegisterUsername",
-    RequestallUsers = "RequestAllUsers"
-
+    RequestallUsers = "RequestAllUsers",
+    SendMessage = "NewMessage",
 }

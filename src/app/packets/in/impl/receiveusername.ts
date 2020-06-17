@@ -3,12 +3,12 @@ import { EventEmitter } from '@angular/core';
 
 export class ReceiveUsername extends InPacket {
 
-    protected emitter: EventEmitter<ReceiveUsernameProps>;
+    public static emitter: EventEmitter<ReceiveUsernameProps> = new EventEmitter(true);
 
     constructor() {
         super();
-        ReceiveUsername.getGenericEmitter().subscribe(data => {
-            this.emitter.emit(data);
+        this.getGenericEmitter().subscribe(data => {
+            ReceiveUsername.emitter.emit(data);
         })
     }
 }
