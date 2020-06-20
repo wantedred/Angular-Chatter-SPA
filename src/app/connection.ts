@@ -32,6 +32,7 @@ export class Connection {
     private static buildConnection() {
         Connection.hubConnection = new HubConnectionBuilder()  
         .withUrl('https://localhost:44368/MessageHub')
+        //.withAutomaticReconnect()
         .build();  
     }
 
