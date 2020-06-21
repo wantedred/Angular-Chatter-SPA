@@ -127,5 +127,8 @@
       }
     }
   },
-  "defaultProject": "WebChatterSPA"
+  "defaultProject": "WebChatterSPA",
+  "cli": {
+    "analytics": "aa10aa94-bd22-4cad-a7c6-9ce2a178e7c1"
+  }
 }

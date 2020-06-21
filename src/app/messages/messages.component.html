@@ -7,9 +7,9 @@
             'received-message'"
         [ngStyle]="!isMyMessage ? {'background-color' : 'purple'} : ''"
     >
-      <mat-card-content>
-        <p style="word-break: break-all;">{{message}}</p>
+      <mat-card-content class="message-content">
+        <p>{{message}}</p>
       </mat-card-content>
-      <mat-card-footer class="message-footer">{{username}} - {{dateTime}}</mat-card-footer>
+      <mat-card-footer class="message-footer"><p>{{username}} - {{dateTime}}</p></mat-card-footer>
     </mat-card>
   </div>

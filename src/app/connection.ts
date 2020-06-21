@@ -1,5 +1,6 @@
 import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { EventEmitter } from '@angular/core';
+import { Confirugations } from './configurations';
 
 export class Connection {
 
@@ -31,7 +32,7 @@ export class Connection {
      */
     private static buildConnection() {
         Connection.hubConnection = new HubConnectionBuilder()  
-        .withUrl('https://localhost:44368/MessageHub')
+        .withUrl(Confirugations.URL + Confirugations.PORT +'/MessageHub')
         //.withAutomaticReconnect()
         .build();  
     }
