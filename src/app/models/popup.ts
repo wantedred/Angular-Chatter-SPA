@@ -1,18 +1,23 @@
+import { PopupType } from '../services/offline/popup.service';
+
 export class Popup {
     
     public showCard: boolean;
     public popTitle : string;
     public inputLabelText: string;
     public inputPlaceholderText: string;
-    public leftActionText: string;
-    public rightActionText: string;
+    public actions: PopupType[];
 
-    constructor(popTitle: string, inputLabelText: string, inputPlaceholderText : string,
-        leftActionText: string = "", rightActionText: string = "") {
+    constructor(popTitle: string, inputLabelText: string, 
+        inputPlaceholderText : string, actions: PopupType[]) {
         this.popTitle = popTitle;
         this.inputLabelText = inputLabelText;
         this.inputPlaceholderText = inputPlaceholderText;
-        this.leftActionText = leftActionText;
-        this.rightActionText = rightActionText;
+        this.actions = actions;
     }
+}
+
+export interface PoppedProps {
+    action: PopupType;
+    text: string;
 }

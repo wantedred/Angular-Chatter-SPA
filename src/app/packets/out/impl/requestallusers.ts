@@ -1,20 +1,15 @@
 import { OutPacket } from '../outpacket';
 import { PacketType } from '../../packettype';
+import { NetworkResponse } from 'src/app/models/networkresponse';
 
 export class RequestAllUsers extends OutPacket {
 
-    prepareSend(): Promise<boolean> {
+    prepareSend(): Promise<NetworkResponse> {
         return super.sendPacket(PacketType.RequestallUsers).then(success => {
-            if (!success) {
-                //throw an error in the username form
-                console.log('Cant get all users');
-                return false;
-              }
-
-              return true;
+            return success
         }, err => {
             console.log('we got an error');
-            return false;
+            return err;
         });
     }
     

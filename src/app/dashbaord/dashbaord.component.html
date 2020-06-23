@@ -8,7 +8,7 @@
               overflow-x: hidden; padding: 0 16px;"
               [ngStyle]="{'height' : 'calc(100% - ' + textHeight + 'px)'}">
               <div class="messages-container">
-                <app-messages *ngFor="let message of messages; index as i"
+                <app-messages *ngFor="let message of messageService.messages;"
                   [isMyMessage]="message.type === 'received' ? false : true"
                   [dateTime]="message.date.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})"
                   [username]="message.username"
@@ -63,7 +63,7 @@
             </mat-card-header>
             <mat-card-content style="height: calc(100vh - 177px); overflow-y: auto;">
               <mat-list>
-                <mat-list-item *ngFor="let user of users">
+                <mat-list-item *ngFor="let user of userService.users">
                   <h3 matLine> {{user.username}} </h3>
                   <button mat-button
                   matTooltip="Send the user a private messaage"

@@ -4,6 +4,7 @@ import { ReceiveUsername } from './in/impl/receiveusername';
 import { Connection } from '../connection';
 import { ReceiveAllUsers } from './in/impl/receiveallusers';
 import { ReceiveMessage } from './in/impl/receivemessage';
+import { NetworkResponse } from '../models/networkresponse';
 
 @Injectable({
     providedIn: 'root'
@@ -24,7 +25,7 @@ export class PacketManager {
      * This method is used to send a packet out
      * @param outPacket - The packet class we are sending out
      */
-    public static async sendPacket(outPacket: OutPacket) : Promise<boolean> {
+    public static async sendPacket(outPacket: OutPacket) : Promise<NetworkResponse> {
       if (!Connection.connectionIsEstablished) {
         this.packetQueue.push(outPacket);
         //TDOD: FINISH PACKET QUEUE

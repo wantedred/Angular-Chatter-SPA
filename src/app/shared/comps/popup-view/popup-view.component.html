@@ -10,15 +10,13 @@
           </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-button 
-        *ngIf="popupService.popup.leftActionText.length > 0"
-        (click)="actionPressed(0, input.value)">
-            {{popupService.popup.leftActionText}}
+        <button mat-button *ngFor="let action of popupService.popup.actions;" 
+        (click)="actionPressed(action, input.value)">
+            {{action}}
         </button>
-        <button mat-button 
-        *ngIf="popupService.popup.rightActionText.length > 0"
+        <!-- <button mat-button 
         (click)="actionPressed(1, input.value)">
             {{popupService.popup.rightActionText}}
-        </button>
+        </button> -->
     </mat-card-actions>
 </mat-card>

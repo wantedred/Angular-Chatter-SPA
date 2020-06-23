@@ -13,6 +13,10 @@ export class User {
         return this._userId;
     }
 
+    public set Id(id: string) {
+        this.Id = id;
+    }
+
     public get username(): string {
         return this._username;
     }

@@ -1,6 +1,7 @@
 import { OutPacket } from '../outpacket';
 import { PacketType } from '../../packettype';
 import { Message } from 'src/app/models/message';
+import { NetworkResponse } from 'src/app/models/networkresponse';
 
 export class SendMessage extends OutPacket {
     
@@ -11,18 +12,12 @@ export class SendMessage extends OutPacket {
         this.message = message;
     }
 
-    prepareSend(): Promise<boolean> {
+    prepareSend(): Promise<NetworkResponse> {
         return super.sendPacket(PacketType.SendMessage, this.message).then(success => {
-            if (!success) {
-                //throw an error in the username form
-                console.log('Cant get all users');
-                return false;
-              }
-
-              return true;
+            return success
         }, err => {
             console.log('we got an error');
-            return false;
+            return err;
         });
     }
     

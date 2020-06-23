@@ -1,14 +1,15 @@
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import { EventEmitter } from '@angular/core';
 import { Confirugations } from './configurations';
-
+import { state } from '@angular/animations';
+import * as signalR from '@microsoft/signalr';
+import { HubConnectionBuilder } from '@microsoft/signalr';
 export class Connection {
 
     /**
      * The connection for the web socket
      */
-    public static hubConnection: HubConnection;
-    
+    public static hubConnection;
+
     /**
      * Where the connection is established
      */
@@ -31,10 +32,10 @@ export class Connection {
      * Starts building the connection for the websocket
      */
     private static buildConnection() {
-        Connection.hubConnection = new HubConnectionBuilder()  
+        Connection.hubConnection = new HubConnectionBuilder() 
         .withUrl(Confirugations.URL + Confirugations.PORT +'/MessageHub')
-        //.withAutomaticReconnect()
-        .build();  
+        .withAutomaticReconnect([0, 3000, 5000, 10000, 15000, 30000])
+        .build();
     }
 
     /**
