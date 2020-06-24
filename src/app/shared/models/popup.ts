@@ -1,4 +1,4 @@
-import { PopupType } from '../services/offline/popup.service';
+import { PopupType } from 'src/app/core/services/offline/popup.service';
 
 export class Popup {
     

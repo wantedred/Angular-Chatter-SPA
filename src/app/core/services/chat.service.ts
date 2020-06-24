@@ -1,7 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';  
-import { Message } from '../models/message';
-import { Observable, observable, from, of } from 'rxjs';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+import { Message } from 'src/app/models/message';
 
 @Injectable({
   providedIn: 'root'

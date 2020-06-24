@@ -1,5 +1,5 @@
 import { HubConnection } from '@microsoft/signalr';
-import { Connection } from '../connection';
+import { Connection } from '../http/connection';
 
 /**
  * Packet class - Tristan Wynn

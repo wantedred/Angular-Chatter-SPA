@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { Connection } from './connection';
-import { PacketManager } from './packets/packetmanager';
+import { Connection } from './core/http/connection';
+import { PacketManager } from './core/packets/packetmanager';
 
 @Component({
   selector: 'app-root',

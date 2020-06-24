@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { User } from 'src/app/models/user';
-import { ReceiveAllUsers, ReceiveAllUsersProps } from 'src/app/packets/in/impl/receiveallusers';
-import { Connection } from 'src/app/connection';
-import { PacketManager } from 'src/app/packets/packetmanager';
-import { RequestAllUsers } from 'src/app/packets/out/impl/requestallusers';
-import { ReceiveUsername, ReceiveUsernameProps } from 'src/app/packets/in/impl/receiveusername';
+import { User } from 'src/app/shared/models/user';
+import { Connection } from '../../http/connection';
+import { PacketManager } from '../../packets/packetmanager';
+import { RequestAllUsers } from '../../packets/out/impl/requestallusers';
+import { ReceiveAllUsers, ReceiveAllUsersProps } from '../../packets/in/impl/receiveallusers';
+import { ReceiveUsername, ReceiveUsernameProps } from '../../packets/in/impl/receiveusername';
 
 @Injectable({
   providedIn: 'root'

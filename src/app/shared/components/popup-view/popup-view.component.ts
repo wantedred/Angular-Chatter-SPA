@@ -1,6 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { PopupService, PopupType } from 'src/app/services/offline/popup.service';
-import { PoppedProps } from 'src/app/models/popup';
+import { Component } from '@angular/core';
+import { PopupService, PopupType } from 'src/app/core/services/offline/popup.service';
 
 @Component({
   selector: 'app-popup-view',

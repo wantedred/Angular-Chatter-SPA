@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
-import { Message } from '../models/message';
-import { PopupService, PopupType } from '../services/offline/popup.service';
-import { Popup, PoppedProps } from '../models/popup';
-import { User } from '../models/user';
-import { PacketManager } from '../packets/packetmanager';
-import { SendUsernameOut } from '../packets/out/impl/sendusername';
-import { Connection } from '../connection';
-import { NetworkResponse } from '../models/networkresponse';
-import { UserService } from '../services/online/user.service';
-import { MessageService } from '../services/online/message.service';
+import { PopupService, PopupType } from 'src/app/core/services/offline/popup.service';
+import { UserService } from 'src/app/core/services/online/user.service';
+import { MessageService } from 'src/app/core/services/online/message.service';
+import { Popup, PoppedProps } from 'src/app/shared/models/popup';
+import { BasicResponse } from 'src/app/core/http/basicresponse';
+import { PacketManager } from 'src/app/core/packets/packetmanager';
+import { SendUsernameOut } from 'src/app/core/packets/out/impl/sendusername';
+import { User } from 'src/app/shared/models/user';
+import { Connection } from 'src/app/core/http/connection';
 
 @Component({
   selector: 'app-dashbaord',
@@ -52,7 +51,7 @@ export class DashbaordComponent implements OnInit {
           return;
         }
 
-        let status: NetworkResponse = await PacketManager.sendPacket(new SendUsernameOut(username));
+        let status: BasicResponse = await PacketManager.sendPacket(new SendUsernameOut(username));
         if (!status.success) {
           //TODO: throw an error in the username form
           console.log('username is taken');
@@ -70,7 +69,7 @@ export class DashbaordComponent implements OnInit {
     });
 
     this.messageService._receivedMessage.subscribe(
-      (data: NetworkResponse) => {
+      (data: BasicResponse) => {
         if (data.success) {
           this.scrollTextBottom();
         }
@@ -82,7 +81,7 @@ export class DashbaordComponent implements OnInit {
       }
 
       PacketManager.sendPacket(new SendUsernameOut(this.userService.user.username, this.userService.user.Id))
-        .then((response: NetworkResponse) =>{
+        .then((response: BasicResponse) =>{
           if (response.success) {
             this.userService.user.Id = connectionId;
             console.log('got reconneted and updated userid');
@@ -107,7 +106,7 @@ export class DashbaordComponent implements OnInit {
   sendMessage(message: string): void {
     console.log('trying to listen dashboard');
     this.messageService._sentMessage.subscribe(
-      (response: NetworkResponse) => {
+      (response: BasicResponse) => {
         console.log('got a response back dashboard', response);
         if (response.success) {
           this.scrollTextBottom();

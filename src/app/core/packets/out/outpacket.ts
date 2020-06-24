@@ -1,6 +1,6 @@
 import { PacketType } from '../packettype';
 import { Packet } from '../packet';
-import { NetworkResponse } from 'src/app/models/networkresponse';
+import { BasicResponse } from 'src/app/core/http/basicresponse';
 
 /**
  * Abstract class for outgoing packets - Tristan Wynn
@@ -10,14 +10,14 @@ export abstract class OutPacket extends Packet  {
     /**
      * Precondition checks before sending the packet
      */
-    abstract prepareSend() : Promise<NetworkResponse>;
+    abstract prepareSend() : Promise<BasicResponse>;
 
     /**
      * 
      * @param packetType - The type of packet we're sending
      * @param data - The data the outgoing packet is sending
      */
-    protected sendPacket(packetType: PacketType, data: any = undefined): Promise<NetworkResponse> {
+    protected sendPacket(packetType: PacketType, data: any = undefined): Promise<BasicResponse> {
         return new Promise((resolved) => {
             if (data === undefined) {
                 console.log('im undefined?');

@@ -1,12 +1,10 @@
-import { Injectable, EventEmitter, ɵSWITCH_COMPILE_INJECTABLE__POST_R3__ } from '@angular/core';
-import { Message } from 'src/app/models/message';
-import { Observable, observable } from 'rxjs';
-import { ReceiveMessage } from 'src/app/packets/in/impl/receivemessage';
+import { Injectable, EventEmitter } from '@angular/core';
 import { UserService } from './user.service';
-import { FromEventTarget } from 'rxjs/internal/observable/fromEvent';
-import { NetworkResponse } from 'src/app/models/networkresponse';
-import { SendMessage } from 'src/app/packets/out/impl/sendmessage';
-import { PacketManager } from 'src/app/packets/packetmanager';
+import { BasicResponse } from 'src/app/core/http/basicresponse';
+import { ReceiveMessage } from '../../packets/in/impl/receivemessage';
+import { PacketManager } from '../../packets/packetmanager';
+import { SendMessage } from '../../packets/out/impl/sendmessage';
+import { Message } from 'src/app/shared/models/message';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +13,8 @@ export class MessageService {
 
   public messages: Message[] = [];
 
-  public _receivedMessage: EventEmitter<NetworkResponse> = new EventEmitter(true);
-  public _sentMessage: EventEmitter<NetworkResponse> = new EventEmitter(true);
+  public _receivedMessage: EventEmitter<BasicResponse> = new EventEmitter(true);
+  public _sentMessage: EventEmitter<BasicResponse> = new EventEmitter(true);
 
   constructor(
     private userService: UserService
@@ -28,7 +26,7 @@ export class MessageService {
         message.type = 'sent';
       }
       this.messages.push(new Message(message.username, message.type, message.text, new Date(message.date)));
-      this._receivedMessage.emit(new NetworkResponse(true, null));
+      this._receivedMessage.emit(new BasicResponse(true, null));
     });
   }
 
@@ -39,7 +37,7 @@ export class MessageService {
       "received",
       message,
       new Date()
-    ))).then((response: NetworkResponse) => {
+    ))).then((response: BasicResponse) => {
       console.log('got a message response back: ', response);
       this._sentMessage.emit(response);
     });

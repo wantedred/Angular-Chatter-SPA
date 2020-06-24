@@ -1,8 +1,6 @@
 import { EventEmitter } from '@angular/core';
-import { Confirugations } from './configurations';
-import { state } from '@angular/animations';
-import * as signalR from '@microsoft/signalr';
 import { HubConnectionBuilder } from '@microsoft/signalr';
+import { ServerConfigurations } from 'src/app/configs/serverconfiguration';
 export class Connection {
 
     /**
@@ -33,7 +31,11 @@ export class Connection {
      */
     private static buildConnection() {
         Connection.hubConnection = new HubConnectionBuilder() 
-        .withUrl(Confirugations.URL + Confirugations.PORT +'/MessageHub')
+        .withUrl(
+            ServerConfigurations.PREFIXURL + 
+            ServerConfigurations.PORT + 
+            ServerConfigurations.MAINHUB
+        )
         .withAutomaticReconnect([0, 3000, 5000, 10000, 15000, 30000])
         .build();
     }
@@ -47,7 +49,7 @@ export class Connection {
         .then(() => {  
             Connection.connectionIsEstablished = true;
             Connection.connectionEstablishedEmitter.emit(true);
-            console.log('Hub connection started');  
+            console.log('Hub connection started'); 
         })  
         .catch(err => {  
           console.log('Error while establishing connection, retrying...');  

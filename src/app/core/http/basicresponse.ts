@@ -1,4 +1,4 @@
-export class NetworkResponse {
+export class BasicResponse {
 
     public success: boolean;
 

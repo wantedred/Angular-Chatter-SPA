@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter, Output } from '@angular/core';
-import { Popup, PoppedProps } from 'src/app/models/popup';
 import { Observable } from 'rxjs';
+import { Popup, PoppedProps } from 'src/app/shared/models/popup';
 
 @Injectable({
   providedIn: 'root'

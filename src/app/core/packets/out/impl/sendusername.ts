@@ -1,6 +1,6 @@
 import { OutPacket } from '../outpacket';
 import { PacketType } from '../../packettype';
-import { NetworkResponse } from 'src/app/models/networkresponse';
+import { BasicResponse } from 'src/app/core/http/basicresponse';
 
 export class SendUsernameOut extends OutPacket {
     
@@ -13,7 +13,7 @@ export class SendUsernameOut extends OutPacket {
         this.connectionId = connectionId;
     }
     
-    prepareSend(): Promise<NetworkResponse> {
+    prepareSend(): Promise<BasicResponse> {
         let username = this.username;
         let connectionId = this.connectionId;
         return super.sendPacket(PacketType.SendUsername, {username, connectionId}).then(success => {

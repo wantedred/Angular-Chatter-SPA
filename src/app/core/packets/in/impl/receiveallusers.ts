@@ -1,6 +1,6 @@
 import { InPacket } from '../inpacket';
-import { User } from 'src/app/models/user';
 import { EventEmitter } from '@angular/core';
+import { User } from 'src/app/shared/models/user';
 
 export class ReceiveAllUsers extends InPacket {
 
