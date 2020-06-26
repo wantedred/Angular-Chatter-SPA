@@ -88,7 +88,21 @@ export class DashbaordComponent implements OnInit {
           }
         });
      });
+  }
 
+  blockUser(user: User) {
+    let users: Array<User> = this.userService.blockedUsers;
+    if (this.isUserBlocked(user)) {
+      users.splice(users.indexOf(user), 1);
+    } else {
+      users.push(user);
+    }
+
+    this.userService.blockedUsers = users;
+  }
+
+  isUserBlocked(user: User) {
+    return this.userService.blockedUsers.includes(user);
   }
 
   prepareMessageSend() {

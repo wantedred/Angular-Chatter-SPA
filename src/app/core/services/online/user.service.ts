@@ -13,6 +13,7 @@ export class UserService {
 
   user: User = null;
   users: User[] = Array<User>();
+  blockedUsers: User[] = Array<User>();
 
   constructor() {
     this.usersInPublicListener();

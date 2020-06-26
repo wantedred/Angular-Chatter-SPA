@@ -5,6 +5,7 @@ import { ReceiveMessage } from '../../packets/in/impl/receivemessage';
 import { PacketManager } from '../../packets/packetmanager';
 import { SendMessage } from '../../packets/out/impl/sendmessage';
 import { Message } from 'src/app/shared/models/message';
+import { element } from 'protractor';
 
 @Injectable({
   providedIn: 'root'
@@ -22,9 +23,17 @@ export class MessageService {
 
   public listenForMessages() : void {
     ReceiveMessage.emitter.subscribe((message: Message) => {
+      for (let i = 0; i < this.userService.blockedUsers.length; i++) {
+        let currentUser = this.userService.blockedUsers[i];
+        if (currentUser.username === message.username) {
+          return;
+        }
+      }
+
       if (this.userService.user !== null && this.userService.user.username === message.username) {
         message.type = 'sent';
       }
+      
       this.messages.push(new Message(message.username, message.type, message.text, new Date(message.date)));
       this._receivedMessage.emit(new BasicResponse(true, null));
     });
