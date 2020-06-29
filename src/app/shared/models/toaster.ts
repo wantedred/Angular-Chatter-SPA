@@ -23,7 +23,7 @@ export class Toaster {
 
 }
 
-export enum ToasterHorizontalTypes {
+export const enum ToasterHorizontalTypes {
 
     START = 'start',
     CENTER = 'center',
@@ -33,7 +33,7 @@ export enum ToasterHorizontalTypes {
 
 }
 
-export enum ToasterVertialTypes {
+export const enum ToasterVertialTypes {
 
     TOP = 'top',
     BOTTOM = 'bottom'

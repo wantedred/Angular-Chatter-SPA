@@ -6,6 +6,7 @@ import { PacketManager } from '../../packets/packetmanager';
 import { SendMessage } from '../../packets/out/impl/sendmessage';
 import { Message } from 'src/app/shared/models/message';
 import { element } from 'protractor';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -39,7 +40,7 @@ export class MessageService {
     });
   }
 
-  public sendMessage(message: string) : void {
+  public sendMessage(message: string) {
     console.log('trying to send message');
     PacketManager.sendPacket(new SendMessage(new Message(
       this.userService.user.username,

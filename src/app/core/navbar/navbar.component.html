@@ -6,8 +6,8 @@
     <span class="example-spacer"></span>
     <!-- <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
     <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon> -->
-    <div fxShow="true" fxHide.lt-sm="true">
-        <button mat-button>
+    <div fxShow="true" fxHide.lt-md="true">
+        <!-- <button mat-button>
             <mat-icon>person</mat-icon>
             <span>Login</span>
         </button>
@@ -15,6 +15,10 @@
         <button mat-button>
             <mat-icon>person_add</mat-icon>
             <span>Sign-Up</span>
+        </button> -->
+        <button mat-button [disabled]="userService.user">
+            <mat-icon>person_add</mat-icon>
+            <span> Join Chat</span>
         </button>
     </div>
 </mat-toolbar>
@@ -22,11 +26,12 @@
 <mat-sidenav-container>
     <mat-sidenav #sidenav>
         <mat-nav-list>
-            <mat-list-item role="listitem">Item 1</mat-list-item>
-            <mat-list-item role="listitem">Item 1</mat-list-item>
-            <mat-list-item role="listitem">Item 1</mat-list-item>
-            <mat-list-item role="listitem">Item 1</mat-list-item>
-            <mat-list-item role="listitem">Item 1</mat-list-item>
+            <mat-list-item role="listitem">        
+                <button mat-button [disabled]="userService.user">
+                    <mat-icon>person_add</mat-icon>
+                    <span> Join Chat</span>
+                </button>
+            </mat-list-item>
         </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content style="overflow-x: hidden;">

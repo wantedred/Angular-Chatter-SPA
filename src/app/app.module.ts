@@ -23,6 +23,7 @@ import { DashbaordComponent } from './modules/dashbaord/dashbaord.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { MessagesComponent } from './modules/messages/messages.component';
 import { PopupViewComponent } from './shared/components/popup-view/popup-view.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { PopupViewComponent } from './shared/components/popup-view/popup-view.co
     ScrollingModule,
     MatTabsModule,
     MatTooltipModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

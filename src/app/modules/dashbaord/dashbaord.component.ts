@@ -8,6 +8,8 @@ import { PacketManager } from 'src/app/core/packets/packetmanager';
 import { SendUsernameOut } from 'src/app/core/packets/out/impl/sendusername';
 import { User } from 'src/app/shared/models/user';
 import { Connection } from 'src/app/core/http/connection';
+import { ToasterService } from 'src/app/core/services/offline/toaster.service';
+import { Toaster } from 'src/app/shared/models/toaster';
 
 @Component({
   selector: 'app-dashbaord',
@@ -28,52 +30,16 @@ export class DashbaordComponent implements OnInit {
   constructor(  
     private popupService: PopupService,
     public userService: UserService,
-    public messageService: MessageService
+    public messageService: MessageService,
+    public toasterService: ToasterService
   ) {  
     //this.subscribeToEvents();  
   }  
 
   ngOnInit(): void {
     //gets the users in the chat
-    this.popupService.showPopup(new Popup(
-      "Choose your display name",
-      "Display Name",
-      "display name",
-      [
-        PopupType.SAVE,
-        PopupType.CANCEL
-      ]
-      )).subscribe(async (popped: PoppedProps) => {
-      if (popped.action === PopupType.SAVE) {
-        let username : string = popped.text;
-          if (username.length < 2 || username.length > 12) {
-          console.log('username must be three to twelve characters long');
-          return;
-        }
-
-        let status: BasicResponse = await PacketManager.sendPacket(new SendUsernameOut(username));
-        if (!status.success) {
-          //TODO: throw an error in the username form
-          console.log('username is taken');
-          return;
-        }
-
-        this.userService.user = new User('', username);
-        this.popupService.clearPopup();
-      }
-
-      if (popped.action === PopupType.CANCEL) {
-        this.popupService.clearPopup();
-        //send a toast that user can't send messages until giving a name
-      }
-    });
-
-    this.messageService._receivedMessage.subscribe(
-      (data: BasicResponse) => {
-        if (data.success) {
-          this.scrollTextBottom();
-        }
-    });
+    this.isMessageSentListener();
+    this.promptDisplayName();
 
     Connection.hubConnection.onreconnected((connectionId) => {
       if (this.userService.user === null) {
@@ -107,26 +73,28 @@ export class DashbaordComponent implements OnInit {
 
   prepareMessageSend() {
     let textMessage : string = this.txtArea.nativeElement.value;
-    console.log('you sent: ', this.txtArea);
-    if (textMessage.length <= 0) {
-      console.log('message length less than 0');
+    if (!this.userService.user) {
+      this.toasterService.issueToast(new Toaster("You must supply a display name first."));
       return;
     }
 
-    this.sendMessage(textMessage);
+    if (textMessage.length <= 0) {
+      this.toasterService.issueToast(new Toaster("Message can't be empty"));
+      return;
+    }
+
     this.messageService.sendMessage(textMessage);
   }
 
-  sendMessage(message: string): void {
-    console.log('trying to listen dashboard');
+  isMessageSentListener(): void {
     this.messageService._sentMessage.subscribe(
       (response: BasicResponse) => {
-        console.log('got a response back dashboard', response);
         if (response.success) {
           this.scrollTextBottom();
           this.clearText();
         } else {
-          this.scrollTextBottom();//message saying failed to send
+          this.scrollTextBottom();
+          this.toasterService.issueToast(new Toaster("Message failed to send, Please check your connection."));
         }
       }
     )
@@ -157,6 +125,52 @@ export class DashbaordComponent implements OnInit {
        this.textHeight = height;
        this.scrollTextBottom();
     }
+  }
+
+  public promptDisplayName() {
+    if (this.userService.user) {
+      return;
+    }
+
+    this.popupService.showPopup(new Popup(
+      "Choose your display name",
+      "Display Name",
+      "display name",
+      [
+        PopupType.SAVE,
+        PopupType.CANCEL
+      ]
+      )).subscribe(async (popped: PoppedProps) => {
+      if (popped.action === PopupType.SAVE) {
+        let username : string = popped.text;
+          if (username.length < 2 || username.length > 12) {
+          console.log('username must be three to twelve characters long');
+          return;
+        }
+
+        let status: BasicResponse = await PacketManager.sendPacket(new SendUsernameOut(username));
+        if (!status.success) {
+          //TODO: throw an error in the username form
+          console.log('username is taken');
+          return;
+        }
+
+        this.userService.user = new User('', username);
+        this.popupService.clearPopup();
+      }
+
+      if (popped.action === PopupType.CANCEL) {
+        this.popupService.clearPopup();
+        this.toasterService.issueToast(new Toaster("You can't send messages, until you supply an username"));
+      }
+    });
+
+    this.messageService._receivedMessage.subscribe(
+      (data: BasicResponse) => {
+        if (data.success) {
+          this.scrollTextBottom();
+        }
+    });
   }
 
 }  

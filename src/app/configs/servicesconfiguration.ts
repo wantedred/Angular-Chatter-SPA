@@ -1,4 +1,4 @@
-import { ToasterHorizontalTypes, ToasterVertialTypes } from '../shared/models/toaster';
+import { ToasterVertialTypes, ToasterHorizontalTypes } from '../shared/models/toaster';
 
 export class ServicesConfiguration {
 

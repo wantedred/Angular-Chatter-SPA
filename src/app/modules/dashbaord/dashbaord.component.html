@@ -22,6 +22,7 @@
                     <mat-form-field #field class="example-full-width" style="width: 100%;" color="">
                       <mat-label>Type a message</mat-label>
                       <textarea matInput #textArea
+                      [disabled]="!userService.user"
                       placeholder="Message to send..."
                       cdkTextareaAutosize
                       cdkAutosizeMinRows="1"
