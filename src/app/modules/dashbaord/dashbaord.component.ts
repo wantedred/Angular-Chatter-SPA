@@ -1,14 +1,13 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { PopupService, PopupType } from 'src/app/core/services/offline/popup.service';
+import { UserService } from 'src/app/core/services/online/user.service';
+import { MessageService } from 'src/app/core/services/online/message.service';
 import { Popup, PoppedProps } from 'src/app/shared/models/popup';
 import { BasicResponse } from 'src/app/core/http/basicresponse';
 import { PacketManager } from 'src/app/core/packets/packetmanager';
+import { SendUsernameOut } from 'src/app/core/packets/out/impl/sendusername';
 import { User } from 'src/app/shared/models/user';
 import { Connection } from 'src/app/core/http/connection';
-import { UserService } from 'src/app/core/services/online/user.service';
-import { MessageService } from 'src/app/core/services/online/message.service';
-import { SendUsernameOut } from 'src/app/core/packets/out/impl/sendusername';
-
 
 @Component({
   selector: 'app-dashbaord',
