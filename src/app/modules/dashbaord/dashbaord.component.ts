@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PopupService, PopupType } from 'src/app/core/services/offline/popup.service';
 import { UserService } from 'src/app/core/services/online/user.service';
-import { MessageService } from 'src/app/core/services/online/message.service';
 import { Popup, PoppedProps } from 'src/app/shared/models/popup';
 import { BasicResponse } from 'src/app/core/http/basicresponse';
 import { PacketManager } from 'src/app/core/packets/packetmanager';
@@ -10,7 +9,6 @@ import { User } from 'src/app/shared/models/user';
 import { Connection } from 'src/app/core/http/connection';
 import { ToasterService } from 'src/app/core/services/offline/toaster.service';
 import { Toaster } from 'src/app/shared/models/toaster';
-
 @Component({
   selector: 'app-dashbaord',
   templateUrl: './dashbaord.component.html',
@@ -18,27 +16,18 @@ import { Toaster } from 'src/app/shared/models/toaster';
 })
 
 export class DashbaordComponent implements OnInit {
-  
-  @ViewChild('textArea') 
-  txtArea: ElementRef;
-
-  @ViewChild('messageContainer')
-  messageContainer: ElementRef;
-
-  textHeight: number = Number(60);
 
   constructor(  
     private popupService: PopupService,
     public userService: UserService,
-    public messageService: MessageService,
     public toasterService: ToasterService
   ) {  
     //this.subscribeToEvents();  
   }  
 
   ngOnInit(): void {
-    //gets the users in the chat
-    this.isMessageSentListener();
+    //TODO: gets the users in the chat
+
     this.promptDisplayName();
 
     Connection.hubConnection.onreconnected((connectionId) => {
@@ -69,62 +58,6 @@ export class DashbaordComponent implements OnInit {
 
   isUserBlocked(user: User) {
     return this.userService.blockedUsers.includes(user);
-  }
-
-  prepareMessageSend() {
-    let textMessage : string = this.txtArea.nativeElement.value;
-    if (!this.userService.user) {
-      this.toasterService.issueToast(new Toaster("You must supply a display name first."));
-      return;
-    }
-
-    if (textMessage.length <= 0) {
-      this.toasterService.issueToast(new Toaster("Message can't be empty"));
-      return;
-    }
-
-    this.messageService.sendMessage(textMessage);
-  }
-
-  isMessageSentListener(): void {
-    this.messageService._sentMessage.subscribe(
-      (response: BasicResponse) => {
-        if (response.success) {
-          this.scrollTextBottom();
-          this.clearText();
-        } else {
-          this.scrollTextBottom();
-          this.toasterService.issueToast(new Toaster("Message failed to send, Please check your connection."));
-        }
-      }
-    )
-  }  
-
-  stopNewLine(event) {
-      event.preventDefault();
-  }
-
-  scrollTextBottom() {
-    this.messageContainer.nativeElement.scrollTop = this.messageContainer.nativeElement.scrollHeight;
-  }
-
-  clearText() {
-    this.txtArea.nativeElement.value = '';
-  }
-
-  onTextChange() {
-    let height: number = +this.txtArea.nativeElement.style.height.split('p')[0] + 60;
-    console.log('text height: ', this.textHeight);
-    console.log('new height', height);
-    if (+height > 130) {
-      console.log('height is over 60');
-      return;
-    }
-    
-    if (this.textHeight != height) {
-       this.textHeight = height;
-       this.scrollTextBottom();
-    }
   }
 
   public promptDisplayName() {
@@ -165,12 +98,12 @@ export class DashbaordComponent implements OnInit {
       }
     });
 
-    this.messageService._receivedMessage.subscribe(
-      (data: BasicResponse) => {
-        if (data.success) {
-          this.scrollTextBottom();
-        }
-    });
+    // this.messageService._receivedMessage.subscribe(
+    //   (data: BasicResponse) => {
+    //     if (data.success) {
+    //       this.scrollTextBottom();
+    //     }
+    // });
   }
 
 }  

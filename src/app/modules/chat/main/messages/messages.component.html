@@ -1,0 +1,23 @@
+<mat-card-content #messageContainer style="overflow-y: scroll; 
+overflow-x: hidden; padding: 0 16px;"
+[ngStyle]="{'height' : 'calc(100% - ' + messageService.textHeight + 'px)'}">
+  <div class="messages-container">
+    <ng-container *ngFor="let message of messageService.messages">
+        <div class="row" style="margin-bottom: 8px;" [ngStyle]="!isMyMessage(message.type) ? 
+        {'justify-content': 'flex-start'} :
+        {'justify-content': 'flex-end'}">
+          <mat-card 
+              [ngClass]="!isMyMessage(message.type) ? 
+                  'sent-message' : 
+                  'received-message'"
+              [ngStyle]="!isMyMessage(message.type) ? {'background-color' : 'purple'} : ''"
+          >
+            <mat-card-content class="message-content">
+              <p>{{message.text}}</p>
+            </mat-card-content>
+            <mat-card-footer class="message-footer"><p>{{message.username}} - {{parseDate(message.date)}}</p></mat-card-footer>
+          </mat-card>
+        </div>
+    </ng-container>
+  </div>
+</mat-card-content>

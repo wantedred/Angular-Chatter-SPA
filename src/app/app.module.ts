@@ -21,9 +21,12 @@ import { RegisterComponent } from './modules/forms/register/register.component';
 import { LoginComponent } from './modules/forms/login/login.component';
 import { DashbaordComponent } from './modules/dashbaord/dashbaord.component';
 import { FooterComponent } from './core/footer/footer.component';
-import { MessagesComponent } from './modules/messages/messages.component';
 import { PopupViewComponent } from './shared/components/popup-view/popup-view.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MainComponent } from './modules/chat/main/main.component';
+import { UsersComponent } from './modules/chat/main/users/users.component';
+import { InputComponent } from './modules/chat/main/input/input.component';
+import { MessagesComponent } from './modules/chat/main/messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +37,10 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     DashbaordComponent,
     FooterComponent,
     MessagesComponent,
-    PopupViewComponent
+    PopupViewComponent,
+    MainComponent,
+    UsersComponent,
+    InputComponent,
   ],
   imports: [
     BrowserModule,

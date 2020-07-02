@@ -1,0 +1,23 @@
+<div class="text-input-container">
+    <div class="col-11 message-input-f">
+      <div class=" message-input">
+        <mat-form-field #field class="example-full-width" style="width: 100%;" color="">
+          <mat-label>Type a message</mat-label>
+          <textarea matInput #textArea
+          placeholder="Message to send..."
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"
+          style="padding-right: 32px;"
+          (blur)="onTextChange()"
+          (paste)="onTextChange()"
+          (keyup.backspace)="onTextChange()"
+          (keypress)="onTextChange()"
+          (resize)="onTextChange()"
+          (keydown.enter)="prepareMessageSend(); stopNewLine($event);"
+          ></textarea>
+          <mat-icon matSuffix style="color: whitesmoke; cursor: pointer;" (click)="prepareMessageSend(); stopNewLine($event)">send</mat-icon>
+        </mat-form-field>
+      </div>
+    </div>
+</div>

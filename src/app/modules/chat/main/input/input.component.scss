@@ -1,0 +1,56 @@
+.message-input-f {
+    background-color: #303030;
+    padding: 12px 12px 0px 12px!important;
+    border-radius: 12px;
+    margin-bottom: 12px!important;
+    position: absolute; 
+    bottom: 0;    
+    left: 0;
+    right: 0;
+    margin-left: 4%;
+    z-index: 3;
+}
+
+
+
+/* input color class */
+// ::ng-deep input.mat-input-element {
+//     color: #484a4c;
+//   }
+  
+/* Change label color on focused */
+::ng-deep .mat-form-field.mat-focused .mat-form-field-label {
+    color: whitesmoke !important;
+}
+  
+::ng-deep .mat-input-element {
+    caret-color: whitesmoke!important;
+}
+
+/* underline border color on focused */
+::ng-deep .mat-focused .mat-form-field-underline .mat-form-field-ripple{
+    background-color: whitesmoke !important;
+}
+
+.message-input input {
+    padding-right: 32px;
+}
+
+.message-input button {
+    position: absolute;
+    bottom: 8px;
+    z-index: 2;
+    right: 6px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+}
+
+.message-input mat-icon {
+    color: black;
+    font-size: 2em;
+}
+
+::-webkit-scrollbar {
+    width: 0px;
+}

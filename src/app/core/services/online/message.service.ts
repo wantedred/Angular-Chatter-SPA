@@ -6,7 +6,7 @@ import { PacketManager } from '../../packets/packetmanager';
 import { SendMessage } from '../../packets/out/impl/sendmessage';
 import { Message } from 'src/app/shared/models/message';
 import { element } from 'protractor';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,9 +14,11 @@ import { Observable } from 'rxjs';
 export class MessageService {
 
   public messages: Message[] = [];
+  public textHeight: number = Number(60);
 
   public _receivedMessage: EventEmitter<BasicResponse> = new EventEmitter(true);
   public _sentMessage: EventEmitter<BasicResponse> = new EventEmitter(true);
+  public scrollMessages$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private userService: UserService
