@@ -6,7 +6,8 @@
         <mat-form-field class="popup-input">
             <mat-label>{{popupService.popup.inputLabelText}}</mat-label>
             <input matInput #input
-            placeholder="{{popupService.popup.inputPlaceholderText}}">
+            placeholder="{{popupService.popup.inputPlaceholderText}}"
+            (keydown.enter)="actionPressed(popupService.popup.actions[0], input.value)">
           </mat-form-field>
     </mat-card-content>
     <mat-card-actions>
@@ -14,9 +15,5 @@
         (click)="actionPressed(action, input.value)">
             {{action}}
         </button>
-        <!-- <button mat-button 
-        (click)="actionPressed(1, input.value)">
-            {{popupService.popup.rightActionText}}
-        </button> -->
     </mat-card-actions>
 </mat-card>

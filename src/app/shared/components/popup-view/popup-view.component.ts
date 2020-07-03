@@ -13,6 +13,6 @@ export class PopupViewComponent {
 
   public actionPressed(action: PopupType, text: string) {
     this.popupService.poppedAction.emit({action, text});
-  }  
+  }
 
 }
