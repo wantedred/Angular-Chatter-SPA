@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, enableProdMode } from '@angular/core';
 import { Connection } from './core/http/connection';
 import { PacketManager } from './core/packets/packetmanager';
 

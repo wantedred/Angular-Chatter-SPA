@@ -1,1 +1,20 @@
-<p>main works!</p>
+<div class="container-fluid" style="padding: 0; height: calc(100%)">
+  <div class="row no-gutters" style="height: 100%;">
+    <div class="col-12 col-lg-9">
+      <mat-tab-group [dynamicHeight]="true" style="height: 100%;">
+        <mat-tab label="Public" style="height: 100%; flex-grow: 1;">
+          <mat-card class="main-chat-card" style="height: calc(100vh - 113px); border-radius: 0;">
+              <app-messages></app-messages>
+              <app-input></app-input>
+            <mat-card-footer>
+            </mat-card-footer>
+          </mat-card>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  
+      <div class="col-lg-3" fxShow="true" fxHide.lt-md="true" style="border-left: 1px solid rgba(0, 0, 0, 0);">
+        <app-members></app-members>
+      </div>
+    </div>
+  </div>

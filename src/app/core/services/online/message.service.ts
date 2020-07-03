@@ -1,12 +1,11 @@
-import { Injectable, EventEmitter } from '@angular/core';
+import { Injectable, EventEmitter, OnInit } from '@angular/core';
 import { UserService } from './user.service';
 import { BasicResponse } from 'src/app/core/http/basicresponse';
 import { ReceiveMessage } from '../../packets/in/impl/receivemessage';
 import { PacketManager } from '../../packets/packetmanager';
 import { SendMessage } from '../../packets/out/impl/sendmessage';
 import { Message } from 'src/app/shared/models/message';
-import { element } from 'protractor';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -20,15 +19,19 @@ export class MessageService {
   public _sentMessage: EventEmitter<BasicResponse> = new EventEmitter(true);
   public scrollMessages$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private userService: UserService
-  ) { this.listenForMessages(); }
+  constructor(private userService: UserService) {
+    this.listenForMessages();
+  }
+
+  ngOnDestroy() {
+    console.log('getting destroyed');
+  }
 
   public listenForMessages() : void {
     ReceiveMessage.emitter.subscribe((message: Message) => {
       for (let i = 0; i < this.userService.blockedUsers.length; i++) {
-        let currentUser = this.userService.blockedUsers[i];
-        if (currentUser.username === message.username) {
+        let blockedUser = this.userService.blockedUsers[i];
+        if (blockedUser.username === message.username) {
           return;
         }
       }
@@ -36,21 +39,19 @@ export class MessageService {
       if (this.userService.user !== null && this.userService.user.username === message.username) {
         message.type = 'sent';
       }
-      
+
       this.messages.push(new Message(message.username, message.type, message.text, new Date(message.date)));
       this._receivedMessage.emit(new BasicResponse(true, null));
     });
   }
 
   public sendMessage(message: string) {
-    console.log('trying to send message');
     PacketManager.sendPacket(new SendMessage(new Message(
       this.userService.user.username,
       "received",
       message,
       new Date()
     ))).then((response: BasicResponse) => {
-      console.log('got a message response back: ', response);
       this._sentMessage.emit(response);
     });
   }

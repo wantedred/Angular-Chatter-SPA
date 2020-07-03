@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { User } from 'src/app/shared/models/user';
 import { Connection } from '../../http/connection';
 import { PacketManager } from '../../packets/packetmanager';

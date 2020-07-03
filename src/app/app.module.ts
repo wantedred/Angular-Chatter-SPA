@@ -19,12 +19,11 @@ import { MatInputModule } from '@angular/material/input';
 import { NavbarComponent } from './core/navbar/navbar.component';
 import { RegisterComponent } from './modules/forms/register/register.component';
 import { LoginComponent } from './modules/forms/login/login.component';
-import { DashbaordComponent } from './modules/dashbaord/dashbaord.component';
 import { FooterComponent } from './core/footer/footer.component';
 import { PopupViewComponent } from './shared/components/popup-view/popup-view.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MainComponent } from './modules/chat/main/main.component';
-import { UsersComponent } from './modules/chat/main/users/users.component';
+import { MembersComponent } from './modules/chat/main/members/members.component';
 import { InputComponent } from './modules/chat/main/input/input.component';
 import { MessagesComponent } from './modules/chat/main/messages/messages.component';
 
@@ -34,12 +33,11 @@ import { MessagesComponent } from './modules/chat/main/messages/messages.compone
     NavbarComponent,
     RegisterComponent,
     LoginComponent,
-    DashbaordComponent,
     FooterComponent,
     MessagesComponent,
     PopupViewComponent,
     MainComponent,
-    UsersComponent,
+    MembersComponent,
     InputComponent,
   ],
   imports: [

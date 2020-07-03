@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/online/user.service';
-import { DashbaordComponent } from 'src/app/modules/dashbaord/dashbaord.component';
 
 @Component({
   selector: 'app-navbar',

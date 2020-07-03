@@ -1,0 +1,42 @@
+<mat-tab-group [dynamicHeight]="true" style="height: 100%;">
+    <mat-tab label="Members" style="height: 100%; flex-grow: 1;">
+      <mat-card class="example-card" style="height: 100%; border-radius: 0;">
+        <mat-card-header style="text-align: right;">
+          <mat-card-title>
+              Names
+          </mat-card-title>
+          <h4 style="
+          margin-bottom: 0px;
+          width: 100%;
+          padding-right: 58px;">Actions</h4>
+        </mat-card-header>
+        <mat-card-content style="height: calc(100vh - 177px); overflow-y: auto;">
+          <mat-list>
+            <mat-list-item *ngFor="let user of userService.users">
+              <h3 matLine *ngIf="!isCurrentUser(user); else nameSelf">{{user.username}}</h3>
+              <ng-template #nameSelf>
+                <h3 matLine><em>{{user.username}}</em></h3>  
+              </ng-template>
+              <button mat-button
+              matTooltip="Send the user a private messaage"
+              matTooltipPosition="above"
+              [disabled]="isCurrentUser(user)"
+              >
+                <mat-icon>message</mat-icon>
+              </button>
+              <button mat-button
+              matTooltip="Block messages from user"
+              matTooltipPosition="above"
+              (click)="blockUser(user)"
+              [disabled]="isCurrentUser(user)">
+                <mat-icon *ngIf="isUserBlocked(user); else unblock">visibility_off</mat-icon>
+                <ng-template #unblock>
+                  <mat-icon>visibility</mat-icon>
+                </ng-template>
+              </button>
+            </mat-list-item>
+           </mat-list>
+        </mat-card-content>
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
