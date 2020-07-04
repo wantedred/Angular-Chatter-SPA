@@ -52,11 +52,6 @@ export class InputComponent implements OnInit {
       return;
     }
 
-    if (textMessage.length > 0 && textMessage.length < 4) {
-      this.toasterService.issueToast(new Toaster("Message must be more than 3 characters"));
-      return;
-    }
-
     this.messageService.sendMessage(textMessage);
   }
 

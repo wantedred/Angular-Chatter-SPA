@@ -6,7 +6,6 @@
     <span class="example-spacer"></span>
     <!-- <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
     <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon> -->
-    <div fxShow="true" fxHide.lt-md="true">
         <!-- <button mat-button>
             <mat-icon>person</mat-icon>
             <span>Login</span>
@@ -16,23 +15,38 @@
             <mat-icon>person_add</mat-icon>
             <span>Sign-Up</span>
         </button> -->
-        <button mat-button [disabled]="userService.user">
+        <button mat-button 
+        fxShow="true" fxHide.lt-md="true"
+        [disabled]="userService.user"
+        >
             <mat-icon>person_add</mat-icon>
             <span> Join Chat</span>
         </button>
-    </div>
+
+        <button mat-button 
+        fxShow="true" fxHide.gt-sm
+        (click)="memberssidenav.toggle()"
+        >
+            <mat-icon>people_alt</mat-icon>
+        </button>
 </mat-toolbar>
 
 <mat-sidenav-container>
     <mat-sidenav #sidenav>
         <mat-nav-list>
             <mat-list-item role="listitem">        
-                <button mat-button [disabled]="userService.user">
+                <button mat-button 
+                [disabled]="userService.user"
+                (click)="userService.clickedNewName.next(true); sidenav.toggle()"
+                >
                     <mat-icon>person_add</mat-icon>
                     <span> Join Chat</span>
                 </button>
             </mat-list-item>
         </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav #memberssidenav [position]="'end'">
+        <app-members></app-members>
     </mat-sidenav>
     <mat-sidenav-content style="overflow-x: hidden;">
         <router-outlet></router-outlet>

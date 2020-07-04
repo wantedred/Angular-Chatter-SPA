@@ -9,3 +9,15 @@
 div.mat-tab-body-wrapper {
     height: 100%!important;
 }
+
+.main-chat-card {
+    height: calc(100vh - 114px);
+}
+
+@media screen and (max-width: 991px) {
+
+    .main-chat-card {
+        height: calc(100vh - 106px)!important;
+    }
+
+}

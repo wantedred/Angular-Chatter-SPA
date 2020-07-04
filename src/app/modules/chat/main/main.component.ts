@@ -25,7 +25,7 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this.promptDisplayName();
-
+    this.listenForNewNameRequest();
     Connection.hubConnection.onreconnected((connectionId) => {
       if (this.userService.user === null) {
         return;
@@ -41,10 +41,15 @@ export class MainComponent implements OnInit {
      });
   }
 
-
+  private listenForNewNameRequest(): void {
+    this.userService.clickedNewName.subscribe(clicked => {
+      this.promptDisplayName();
+    });
+  }
 
   public promptDisplayName() {
     if (this.userService.user) {
+      this.toasterService.issueToast(new Toaster("Something went wrong... Please refresh"));
       return;
     }
 
@@ -60,13 +65,14 @@ export class MainComponent implements OnInit {
       if (popped.action === PopupType.SAVE) {
         let username : string = popped.text;
           if (username.length < 2 || username.length > 12) {
-          console.log('username must be three to twelve characters long');
+          this.toasterService.issueToast(new Toaster("username must be three to twelve characters long"));
           return;
         }
 
         let status: BasicResponse = await PacketManager.sendPacket(new SendUsernameOut(username));
         if (!status.success) {
           //TODO: throw an error in the username form
+          this.toasterService.issueToast(new Toaster("Username is currently taken"));
           console.log('username is taken');
           return;
         }
