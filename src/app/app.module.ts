@@ -26,6 +26,7 @@ import { MainComponent } from './modules/chat/main/main.component';
 import { MembersComponent } from './modules/chat/main/members/members.component';
 import { InputComponent } from './modules/chat/main/input/input.component';
 import { MessagesComponent } from './modules/chat/main/messages/messages.component';
+import { Error404Component } from './modules/error404/error404.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MessagesComponent } from './modules/chat/main/messages/messages.compone
     MainComponent,
     MembersComponent,
     InputComponent,
+    Error404Component,
   ],
   imports: [
     BrowserModule,

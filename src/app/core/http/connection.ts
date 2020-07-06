@@ -33,7 +33,6 @@ export class Connection {
         Connection.hubConnection = new HubConnectionBuilder() 
         .withUrl(
             ServerConfigurations.PREFIXURL + 
-            ServerConfigurations.PORT + 
             ServerConfigurations.MAINHUB
         )
         .withAutomaticReconnect([0, 3000, 5000, 10000, 15000, 30000])
