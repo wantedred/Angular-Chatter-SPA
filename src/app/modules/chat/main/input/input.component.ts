@@ -41,9 +41,9 @@ export class InputComponent implements OnInit {
   }
 
   prepareMessageSend() {
-    let textMessage : string = this.txtArea.nativeElement.value;
+    let textMessage : string = this.txtArea.nativeElement.value.trim();
     if (!this.userService.user) {
-      this.toasterService.issueToast(new Toaster("You must supply a display name first."));
+      this.toasterService.issueToast(new Toaster("You must supply a display name before sending messages."));
       return;
     }
 
@@ -61,8 +61,6 @@ export class InputComponent implements OnInit {
         if (response.success) {
           this.messageService.scrollMessages$.next(true);
           this.clearText();
-        } else {
-          this.toasterService.issueToast(new Toaster("Message failed to send, Please check your connection."));
         }
       }
     )

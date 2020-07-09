@@ -4,8 +4,6 @@
     </button>
     <span>Web Chatter</span>
     <span class="example-spacer"></span>
-    <!-- <mat-icon class="example-icon" aria-hidden="false" aria-label="Example heart icon">favorite</mat-icon>
-    <mat-icon class="example-icon" aria-hidden="false" aria-label="Example delete icon">delete</mat-icon> -->
         <!-- <button mat-button>
             <mat-icon>person</mat-icon>
             <span>Login</span>
@@ -18,6 +16,7 @@
         <button mat-button 
         fxShow="true" fxHide.lt-md="true"
         [disabled]="userService.user"
+        (click)="userService.clickedNewName.next(true);"
         >
             <mat-icon>person_add</mat-icon>
             <span> Join Chat</span>

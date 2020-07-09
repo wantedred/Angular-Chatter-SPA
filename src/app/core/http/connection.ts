@@ -1,12 +1,12 @@
 import { EventEmitter } from '@angular/core';
-import { HubConnectionBuilder } from '@microsoft/signalr';
+import { HubConnectionBuilder, HubConnection, HttpTransportType, LogLevel, JsonHubProtocol } from '@microsoft/signalr';
 import { ServerConfigurations } from 'src/app/configs/serverconfiguration';
 export class Connection {
 
     /**
      * The connection for the web socket
      */
-    public static hubConnection;
+    public static hubConnection: HubConnection;
 
     /**
      * Where the connection is established
@@ -32,23 +32,26 @@ export class Connection {
     private static buildConnection() {
         Connection.hubConnection = new HubConnectionBuilder() 
         .withUrl(
-            ServerConfigurations.PREFIXURL + 
+            ServerConfigurations.PREFIXURL +
             ServerConfigurations.MAINHUB
-        )
+        , HttpTransportType.LongPolling)
+        .withHubProtocol(new JsonHubProtocol())
         .withAutomaticReconnect([0, 3000, 5000, 10000, 15000, 30000])
         .build();
+
+        Connection.hubConnection.keepAliveIntervalInMilliseconds = 1000 * 15;
+        Connection.hubConnection.serverTimeoutInMilliseconds = 1000 * 30;
     }
 
     /**
      * Connects to the server using a webscoekt 
      */
     private static connect() {
-        Connection.hubConnection  
-        .start()  
+        Connection.hubConnection
+        .start()
         .then(() => {  
             Connection.connectionIsEstablished = true;
             Connection.connectionEstablishedEmitter.emit(true);
-            console.log('Hub connection started'); 
         })  
         .catch(err => {  
           console.log('Error while establishing connection, retrying...');  

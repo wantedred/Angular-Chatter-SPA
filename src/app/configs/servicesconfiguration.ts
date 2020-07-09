@@ -8,7 +8,7 @@ export class ServicesConfiguration {
     public static readonly TOASTERHORIZONTALTYPES: 
         ToasterHorizontalTypes = ToasterHorizontalTypes.CENTER;
 
-    public static readonly TOASTERDURATION: number = 2000;
+    public static readonly TOASTERDURATION: number = 5000;
 
     public static readonly TOASTERACTIONTEXT: string = 'Dismiss';
 

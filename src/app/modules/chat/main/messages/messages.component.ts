@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MessageService } from 'src/app/core/services/online/message.service';
+import { BasicResponse } from 'src/app/core/http/basicresponse';
 
 @Component({
   selector: 'app-messages',
@@ -19,7 +20,12 @@ export class MessagesComponent implements OnInit {
         this.scrollTextBottom();
       }
     });
-  
+
+    this.messageService._receivedMessage.subscribe((response: BasicResponse) => {
+      if (response) {
+        this.scrollTextBottom();
+      }
+    });
   }
 
   public isMyMessage(messageType: string) : boolean {
