@@ -3,8 +3,8 @@
     <div class="col-12 col-lg-9">
       <!-- width > 600: calc(95vh - 14px); width < 600: calc(95vh - 28px); will have to think about this-->
       <mat-tab-group [dynamicHeight]="true" style="height: 100%;">
-        <mat-tab label="Public" style="height: 100%; flex-grow: 1;">
-          <mat-card class="main-chat-card" style="border-radius: 0;">
+        <mat-tab label="Public">
+          <mat-card class="main-chat-card" style="border-radius: 0; height: 100%;">
             <!-- mobile height: 106px; desktop: 114px -->
               <app-messages></app-messages>
               <app-input></app-input>

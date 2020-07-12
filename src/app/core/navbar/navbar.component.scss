@@ -6,42 +6,16 @@ mat-toolbar {
     flex: 1 1 auto;
 }
 
-.example-icon {
-    padding: 0 14px;
-}
-
 mat-sidenav-container {
-    height: 92vh!important;
+    height: calc(100% - 64px);
 }
 
-.mat-sidenav-content {
-    margin-bottom: 0px;
-}
+// router-outlet + * {
+// }
 
-router-outlet + * {
-    min-height: calc(100%);
-    width: 100%;
-    padding: 0;
-    background-color: transparent!important;
-    display: inline-block;
-}
+@media (max-width: 599px) {
 
-/** mat-toolbar height **/
-/** 6.50vh on desktop **/
-/** 10vh on mobile(tablet) **/
-
-@media (min-width: 992px) {
-
-
-    mat-sidenav-container {
-        height: calc(100vh - 64px)!important;
-    }
-}
-
-@media (max-width: 991px) {
-
- 
      mat-sidenav-container {
-        height: calc(100vh - 56px)!important;
+        height: calc(100% - 56px)!important;
      }
 }

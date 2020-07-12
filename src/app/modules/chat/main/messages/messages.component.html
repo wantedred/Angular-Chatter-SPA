@@ -1,6 +1,6 @@
 <mat-card-content #messageContainer style="overflow-y: scroll; 
 overflow-x: hidden; padding: 0 16px;"
-[ngStyle]="{'height' : 'calc(100% - ' + messageService.textHeight + 'px)'}">
+[ngStyle]="{'height' : 'calc(86vh - ' + messageService.textHeight + 'px)'}">
   <div class="messages-container">
     <ng-container *ngFor="let message of messageService.messages">
         <div class="row" style="margin-bottom: 8px;" [ngStyle]="!isMyMessage(message.type) ? 

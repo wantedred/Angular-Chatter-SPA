@@ -1,6 +1,9 @@
 <mat-toolbar color="primary">
-    <button mat-button>
+    <button mat-button fxShow="true" fxHide.gt-sm>
         <mat-icon (click)="sidenav.toggle()">menu</mat-icon>
+    </button>
+    <button mat-button fxShow="true" fxHide.lt-md="true" [disableRipple]="true">
+        <img src="/assets/site-icon/128x-WC.png" height="48px" width="48px" />
     </button>
     <span>Web Chatter</span>
     <span class="example-spacer"></span>
