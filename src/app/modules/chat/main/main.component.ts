@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { PopupService, PopupType } from 'src/app/core/services/offline/popup.service';
 import { UserService } from 'src/app/core/services/online/user.service';
 import { ToasterService } from 'src/app/core/services/offline/toaster.service';
@@ -9,6 +9,7 @@ import { SendUsernameOut } from 'src/app/core/packets/out/impl/sendusername';
 import { User } from 'src/app/shared/models/user';
 import { Toaster } from 'src/app/shared/models/toaster';
 import { Connection } from 'src/app/core/http/connection';
+import { ResizeService } from 'src/app/core/services/offline/resizeevent.service';
 
 @Component({
   selector: 'app-main',
@@ -20,7 +21,9 @@ export class MainComponent implements OnInit {
   constructor(
     private popupService: PopupService,
     public userService: UserService,
-    public toasterService: ToasterService
+    public toasterService: ToasterService,
+    private resizeEvent: ResizeService,
+    private cdRef:ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -39,6 +42,18 @@ export class MainComponent implements OnInit {
           }
         });
      });
+  }
+
+  ngAfterViewInit() {
+    this.getScreenSize();
+    this.cdRef.detectChanges();
+  }
+
+  @HostListener('window:resize', ['$event'])
+  getScreenSize() {
+    const height = window.innerHeight;
+    const width = window.innerWidth;
+    this.resizeEvent.resizeEvent.next({height, width});
   }
 
   private listenForNewNameRequest(): void {

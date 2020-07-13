@@ -30,7 +30,6 @@ export abstract class OutPacket extends Packet  {
                     resolved(rejected);
                 })
             } else {
-                console.log('im not undefined?');
                 Packet._hubConnection.
                 invoke(packetType, data).then(success => {
                     //console.log(this.chatService.connectionIsEstablished);

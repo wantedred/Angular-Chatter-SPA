@@ -26,13 +26,16 @@ export class InputComponent implements OnInit {
   onTextChange() {
     let height: number = +this.txtArea.nativeElement.style.height.split('p')[0] + 60;
     let textHeight: number = this.messageService.textHeight;
-    if (+height > 130) {
+
+    if (+height > 135) {
+      this.messageService.textHeight = 135;
+      setTimeout(() => this.messageService.scrollMessages$.next(true), 75);
       return;
     }
     
     if (textHeight != height) {
       this.messageService.textHeight = height;
-       this.messageService.scrollMessages$.next(true);
+      setTimeout(() => this.messageService.scrollMessages$.next(true), 75);
     }
   }
 
@@ -59,8 +62,10 @@ export class InputComponent implements OnInit {
     this.messageService._sentMessage.subscribe(
       (response: BasicResponse) => {
         if (response.success) {
-          this.messageService.scrollMessages$.next(true);
           this.clearText();
+          //Call delayed, to give DOM time
+          setTimeout(() => this.onTextChange(), 75);
+          this.messageService.scrollMessages$.next(true);
         }
       }
     )

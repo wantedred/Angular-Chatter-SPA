@@ -13,7 +13,7 @@ import { Subject } from 'rxjs';
 export class MessageService {
 
   public messages: Message[] = [];
-  public textHeight: number = Number(60);
+  public textHeight: number = Number(75);
 
   public _receivedMessage: EventEmitter<BasicResponse> = new EventEmitter(true);
   public _sentMessage: EventEmitter<BasicResponse> = new EventEmitter(true);
