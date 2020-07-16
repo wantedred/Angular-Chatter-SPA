@@ -29,7 +29,8 @@
         fxShow="true" fxHide.gt-sm
         (click)="memberssidenav.toggle()"
         >
-            <mat-icon>people_alt</mat-icon>
+            <mat-icon *ngIf="!memberssidenav.opened">people_alt</mat-icon>
+            <mat-icon *ngIf="memberssidenav.opened">close</mat-icon>
         </button>
 </mat-toolbar>
 
@@ -47,7 +48,7 @@
             </mat-list-item>
         </mat-nav-list>
     </mat-sidenav>
-    <mat-sidenav #memberssidenav [position]="'end'">
+    <mat-sidenav #memberssidenav [position]="'end'" style="width: 100%;">
         <app-members></app-members>
     </mat-sidenav>
     <mat-sidenav-content style="overflow-x: hidden;">
